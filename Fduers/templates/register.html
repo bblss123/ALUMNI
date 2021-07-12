@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+<form action="/register/" method="post" name="post1">
+    <p>用户名:
+        <input type="text" name="username">
+    </p>
+    <p>
+        邮箱:
+        <input type="email" name="mail">
+    </p>
+    <p>
+        年级:
+        <input type="number" name="grade">
+    </p>
+    <p>
+        学号:
+        <input type="text" name="studentID">
+    </p>
+    <p>
+        电话:
+        <input type="text" name="phone">
+    </p>
+    <p>
+        推荐人:
+        <input type="text" name="referrer">
+    </p>
+    <p>
+        密码:
+        <input type="password" name="password">
+    </p>
+    <p>
+        城市:
+        <select name="city_id">
+            <option value=1>上海</option>
+            <option value=2>北京</option>
+            <option value=3>广州</option>
+            <option value=4>深圳</option>
+        </select>
+    </p>
+    <p>
+        院系:
+        <select name="department_id">
+            <option value=1>计算机科学与技术</option>
+
+        </select>
+    </p>
+    <p>
+        专业:
+        <select name="major_id">
+            <option value=1>软件工程</option>
+
+        </select>
+    </p>
+    <p>
+        行业:
+        <select name="industry_id">
+            <option value=1>互联网</option>
+
+        </select>
+    </p>
+
+    <p>
+        <input type="submit" value="注册">
+    </p>
+    {% csrf_token %}
+</form>
+</body>
+</html>

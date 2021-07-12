@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Home Page</title>
+<script src="home.js"></script>
+<style>
+
+* {
+  	box-sizing: border-box;
+}
+
+body {
+	display: block;
+  	margin: 0;
+}
+
+.header {
+	background-color: #F5F5F5;
+	padding: 20px;
+	text-align: center;
+	font-weight: bold;
+
+}
+
+/* 导航条*/
+.topnav {
+	overflow: hidden;
+  	background-color: #8FBC8F;
+  	padding: 0;
+}
+
+.guide {
+	float: left;
+}
+
+.posts_search {
+  	display: flex;
+  	background-color:#F5F5F5;
+}
+
+.posts_search > div {
+    flex: 1;
+}
+
+/* 底部 */
+.footer {
+	padding: 20px;
+	text-align: center;
+	background: #ddd;
+	margin-top: 20px;
+}
+
+ul {
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	overflow:hidden;
+}
+
+li {
+	float:left;
+	padding: 20px;
+}
+
+
+
+
+</style>
+</head>
+<body>
+
+<div class="header"><h>校友会平台</h></div>
+
+<div class="topnav">
+	<div class="guide">
+		<a href="personalPage.html">
+			<table>
+				<tr><td><img id="personal_icon" src="./img/personal_icon.JPG"></td></tr>
+				<tr><td style="color:#FFFFFF">个人主页</td></tr>
+			</table>
+		</a>
+	</div>
+
+<!--
+	<div class="guide">
+		<img id="search_icon" src="../img/search_icon.jpg" style="height:56px;width:56px;" onclick="refresh_post()">
+	</div>
+-->
+
+	<div class="guide">
+		<form name="searchword" action="home/" method="POST">
+		<input id="search-keyword" style="height:56px;width:300px;" placeholder="帖子：选择下方内容进行筛选" type="text" maxlength="100" autocomplete="off" class="content">
+		<input type="submit">
+		<div id="navigator">
+			<ul>
+				<li class="switch-header">
+					<span style="height:56px;width:56px;color:#FFFFFF;" onclick="navigator_display('sub_all')">综合</span>
+				</li>
+
+				<li class="switch-header">
+					<span style="height:56px;width:56px;color:#FFFFFF;" onclick="navigator_display('sub_city')">地域</span>
+				</li>
+
+				<li class="switch-header">
+					<span style="height:56px;width:56px;color:#FFFFFF;" onclick="navigator_display('sub_career')">行业</span>
+				</li>
+
+				<li class="switch-header">
+					<span style="height:56px;width:56px;color:#FFFFFF;" onclick="navigator_display('sub_school')">院系</span>
+				</li>
+
+				<li class="switch-header">
+					<span style="height:56px;width:56px;color:#FFFFFF;" onclick="navigator_display('sub_year')">毕业年份</span>
+				</li>
+
+				<li class="switch-header">
+					<span style="height:56px;width:56px;color:#FFFFFF;" onclick="navigator_display('sub_activity')">活动帖</span>
+				</li>
+
+			</ul>
+		</div>
+
+		<div id="search_details">
+			<ul id="sub_all" style="display:none">
+				<li id="热点话题" onclick="search_checkbox(id)">热点话题</li>
+				<li id="已关注的话题"  onclick="search_checkbox(id)">已关注的话题</li>
+			</ul>
+			<ul id="sub_city" style="display:none">
+				<li id="上海" onclick="search_checkbox(id)">上海</li>
+				<li id="北京"  onclick="search_checkbox(id)">北京</li>
+			</ul>
+			<ul id="sub_career" style="display:none">
+				<li id="计算机" onclick="search_checkbox(id)">计算机</li>
+				<li id="金融"  onclick="search_checkbox(id)">金融</li>
+			</ul>
+			<ul id="sub_school" style="display:none">
+				<li id="计算机科学技术学院" onclick="search_checkbox(id)">计算机科学技术学院</li>
+				<li id="外国语言文学院"  onclick="search_checkbox(id)">外国语言文学院</li>
+			</ul>
+			<ul id="sub_year" style="display:none">
+				<li id="2018" onclick="search_checkbox(id)">2018</li>
+				<li id="2019"  onclick="search_checkbox(id)">2019</li>
+			</ul>
+			<ul id="sub_activity" style="display:none">
+				<li id="校友聚会" onclick="search_checkbox(id)">校友聚会</li>
+				<li id="母校活动"  onclick="search_checkbox(id)">母校活动</li>
+			</ul>
+		</div>
+
+		</form>
+	</div>
+</div>
+
+
+<div class="posts_search">
+	<div class="newest" style="text-align:center;height:56px;width:56px;">最新</div>
+	<div class="hotest" style="text-align:center;height:56px;width:56px;">最热</div>
+	<div class="follow" style="text-align:center;height:56px;width:56px;">已关注</div>
+</div>
+
+<div class="posts">
+	<span>标题：{{title}}, 博主：{{host}}，发帖时间：{{postTime}}</span>
+</div>
+
+
+
+</body>
+</html>

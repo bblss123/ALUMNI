@@ -2,6 +2,7 @@ from django.shortcuts import *
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from .models import User
+from .models import Tie
 
 
 # Create your views here.
@@ -54,3 +55,9 @@ def register(request):
             major_id=major_id
         )
         return render(request, 'success_register.html')
+
+
+def home(request):
+    TieList = Tie.objects.all()
+
+    return render(request, 'home.html', locals())

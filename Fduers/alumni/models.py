@@ -125,3 +125,9 @@ class Reply(models.Model):  # 楼层
     class Meta:
         verbose_name = '楼层'
         verbose_name_plural = '楼层'
+
+class Student(models.Model): # 存放管理员导入的表单
+    name = models.CharField('姓名', max_length = 50)
+    studentID = models.CharField('学号', max_length = 20)
+    grade = models.IntegerField('界次')
+    department = models.ForeignKey(Department, on_delete=models.DO_NOTHING, verbose_name='院系')

@@ -98,7 +98,7 @@ ul {
 .line {
 	border: 0;
 	height: 12px;
-	box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.3);
+	box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
 }
 
 .bar button {
@@ -151,7 +151,7 @@ ul {
 	</div>
 -->
 
-	<div class="search" style="float: right; padding-right:10px;">
+	<div class="search" style="float: right; border-right:10px;">
 		<div class="bar">
 			<form name="searchword" action="home.html" method="POST">
 				<button type="submit"></button>
@@ -164,32 +164,28 @@ ul {
 
 <div class="navigator">
 	<ul>
-		<li class="switch-header" style="float: right; padding-right:80px;">
-			<span style="height:56px;width:56px;color:#FFFFFF;" onclick="navigator_display('sub_city')">地域</span>
-				<select>
-					<option>none</option>
-					<option>shanghai</option>
-				</select>
+		<li class="switch-header">
+			<span style="height:56px;width:56px;color:#FFFFFF;" onclick="navigator_display('sub_all')">综合</span>
 		</li>
 
-		<li class="switch-header" style="float: right; padding-right:10px;">
+		<li class="switch-header">
+			<span style="height:56px;width:56px;color:#FFFFFF;" onclick="navigator_display('sub_city')">地域</span>
+		</li>
+
+		<li class="switch-header">
 			<span style="height:56px;width:56px;color:#FFFFFF;" onclick="navigator_display('sub_career')">行业</span>
 		</li>
 
-		<li class="switch-header" style="float: right; padding-right:10px;">
+		<li class="switch-header">
 			<span style="height:56px;width:56px;color:#FFFFFF;" onclick="navigator_display('sub_school')">院系</span>
 		</li>
 
-		<li class="switch-header" style="float: right; padding-right:10px;">
+		<li class="switch-header">
 			<span style="height:56px;width:56px;color:#FFFFFF;" onclick="navigator_display('sub_year')">毕业年份</span>
 		</li>
 
-		<li class="switch-header" style="float: right; padding-right:10px;">
+		<li class="switch-header">
 			<span style="height:56px;width:56px;color:#FFFFFF;" onclick="navigator_display('sub_activity')">活动帖</span>
-		</li>
-
-		<li class="switch-header" style="float: right; padding-right:10px;">
-			<span style="height:56px;width:56px;color:#FFFFFF;" onclick="navigator_display('sub_all')">综合</span>
 		</li>
 
 	</ul>

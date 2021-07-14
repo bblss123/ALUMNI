@@ -10,8 +10,8 @@ function navigator_display(id)
 {
 	var sub_menu = document.getElementById(id);
 	if(sub_menu.style.display == "none")
-		sub_menu.style.display = "";
-	else if(sub_menu.style.display == "")
+		sub_menu.style.display = "inline;
+	else if(sub_menu.style.display == "inline")
 		sub_menu.style.display = "none";
 
 	if(id != "sub_all")

@@ -23,11 +23,16 @@ def index(request):
     if request.method == 'GET':
         return render(request, 'index.html', {'username':request.session.get('username')})
 
+
 def search(request):
-    print("emmmmmm")
     if request.method == 'GET':
         return render(request, 'home.html', {'title': request.session.get('username')})
     else:
         # process
-        return render(request, 'home.html', {'title': request.session.get('username')})
+        return render(request, 'home.html', {'title': 'hi'})
         # return redirect('/')
+
+
+def post(request):
+    if request.method == 'POST':
+        return render(request, 'https://www.baidu.com')

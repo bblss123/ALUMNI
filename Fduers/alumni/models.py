@@ -37,9 +37,13 @@ class Industry(models.Model):
     def __str__(self):
         return self.name
 
+class Province(models.Model):
+    name = models.CharField('省份', max_length=30, null=False, unique=True, primary_key = True)
 
 class City(models.Model):
-    name = models.CharField('城市', max_length=30, null=False, unique=True)
+    id = models.IntegerField(primary_key = True)
+    name = models.CharField('城市', max_length=30, null=False, unique = False)
+    province = models.ForeignKey(Province, on_delete = models.DO_NOTHING, db_column = 'f', default="北京")
 
     class Meta:
         verbose_name = '城市'

@@ -2,3 +2,5 @@
 
 `department_generator.py`生成一个存放所有学校所有院系的csv文件。`department_generator.py`的使用方法参见[链接](https://blog.csdn.net/weixin_43663488/article/details/106630311)
 
+`city_generator.py`暂时不能使用，相应地，data文件夹下存储了一个存放所有省份、城市和街道的数据库
+

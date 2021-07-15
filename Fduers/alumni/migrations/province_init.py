@@ -28,8 +28,6 @@ def Province_init(apps, schema_editor): # import ../generator/data/city_version-
 
 class Migration(migrations.Migration):
 
-    initial = True
-
     dependencies = [
         ('alumni', '0001_initial'),
     ]

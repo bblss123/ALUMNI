@@ -46,8 +46,6 @@ def City_init(apps, schema_editor): # import ../generator/data/city_version-4.sq
 
 class Migration(migrations.Migration):
 
-    initial = True
-
     dependencies = [
         ('alumni', 'province_init'),
     ]

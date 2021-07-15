@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 
 class Department(models.Model):
-    name = models.CharField('院系', max_length=30, null=False, unique=True)
+    name = models.CharField('院系', max_length=30, null=False, unique=True, primary_key = True)
 
     class Meta:
         verbose_name = '院系'

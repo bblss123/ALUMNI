@@ -2,10 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="3;url=/">
+    <meta http-equiv="refresh" content="4;url=/">
+    <style type="text/css">
+        h1{
+            font-size: 50px;
+            text-align: center;
+        }
+    </style>
     <title>Success</title>
 </head>
 <body>
-注册成功！网页将于三秒内自动跳转到登录界面
+<h1>注册成功！页面将于<span>5</span>秒后跳转到登录页面</h1>
+<script type="text/javascript" src = "http://libs.baidu.com/jquery/1.10.0/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var e = $("h1 span").first();
+        var i = 4;
+        var interval = setInterval(function(){
+            e.html(i);
+            i--;
+            if(i <= 0){
+                clearInterval(interval);
+            }
+        },1000);
+    })
+</script>
 </body>
 </html>

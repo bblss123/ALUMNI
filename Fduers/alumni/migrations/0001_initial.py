@@ -30,8 +30,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='City',
             fields=[
-                ('id', models.IntegerField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=30, verbose_name='城市')),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=30, unique=True, verbose_name='城市')),
             ],
             options={
                 'verbose_name': '城市',
@@ -61,10 +61,23 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+<<<<<<< HEAD
             name='Province',
             fields=[
                 ('name', models.CharField(max_length=30, primary_key=True, serialize=False, unique=True, verbose_name='省份')),
             ],
+=======
+            name='Major',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=30, unique=True, verbose_name='专业')),
+                ('department', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='alumni.department', verbose_name='所属院系')),
+            ],
+            options={
+                'verbose_name': '专业',
+                'verbose_name_plural': '专业',
+            },
+>>>>>>> d10299f008bcdd92517ebf7603adfb73852b7ecd
         ),
         migrations.CreateModel(
             name='Tag',
@@ -91,15 +104,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='User',
             fields=[
-                ('username', models.CharField(max_length=30, primary_key=True, serialize=False, verbose_name='用户名')),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('username', models.CharField(max_length=30, verbose_name='用户名')),
                 ('mail', models.CharField(max_length=20, verbose_name='邮箱')),
                 ('grade', models.IntegerField(verbose_name='届次')),
                 ('studentID', models.CharField(max_length=20, verbose_name='学号')),
                 ('phone', models.CharField(max_length=20, verbose_name='电话')),
-                ('referrer', models.CharField(max_length=30, verbose_name='推荐人')),
+                ('referrer', models.CharField(max_length=30, null=True, verbose_name='推荐人')),
                 ('password', models.CharField(max_length=20, verbose_name='密码')),
                 ('photo', models.ImageField(blank=True, default='img/default.jpg', null=True, upload_to='user_photo/%Y/%m/%d', verbose_name='头像')),
+<<<<<<< HEAD
                 ('essay', models.TextField(default='', max_length=30, verbose_name='个性签名')),
+=======
+>>>>>>> d10299f008bcdd92517ebf7603adfb73852b7ecd
                 ('city', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='alumni.city', verbose_name='城市')),
                 ('department', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='alumni.department', verbose_name='院系')),
                 ('industry', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='alumni.industry', verbose_name='行业')),
@@ -128,16 +145,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Student',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, verbose_name='姓名')),
-                ('studentID', models.CharField(max_length=20, verbose_name='学号')),
-                ('grade', models.IntegerField(verbose_name='界次')),
-                ('department', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='alumni.department', verbose_name='院系')),
-            ],
-        ),
-        migrations.CreateModel(
             name='Reply',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -160,11 +167,6 @@ class Migration(migrations.Migration):
                 'verbose_name': '专业',
                 'verbose_name_plural': '专业',
             },
-        ),
-        migrations.AddField(
-            model_name='city',
-            name='province',
-            field=models.ForeignKey(db_column='f', default='北京', on_delete=django.db.models.deletion.DO_NOTHING, to='alumni.province'),
         ),
         migrations.AddField(
             model_name='activity',

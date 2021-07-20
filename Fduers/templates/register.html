@@ -136,6 +136,7 @@
                 <option value="{{ major.id }}">{{ major.name }}</option>
                 {% endfor %}
             </select>
+<<<<<<< HEAD
     <br> -->
                 <span style="color: red">*</span><span style="color:black ">邮箱 </span>
                 <input type="email" name="mail" id="em" class="inputtext" placeholder="请输入邮箱"><br>
@@ -183,6 +184,63 @@
             {# <p>点击 【进入问答匹配环节】按钮，计算问答得分，防止身份冒用</p>#}
             {# <p>点击【管理员登录】小字部分，进入管理员登录界面</p>#}
         </div>
+=======
+    <br>
+    <span style="color: red">*</span><span style="color:black ">邮箱 </span>
+                <input type="email" name="mail" id="em" class="inputtext"
+                placeholder="请输入邮箱"><br>
+            <br>
+    <span style="color: red">*</span><span style="color:black ">用户名 </span>
+                <input type="text" name="username" id="id" class="inputtext"
+                placeholder="请输入用户名"><br>
+            <br>
+    <span style="color: red">*</span><span style="color:black ">密码 </span>
+                <input type="password" id="pw1" name="password" 
+                placeholder="请输入8-16位密码"
+                class="inputtext"><br>
+            <br>
+ <span style="color: red">*</span><span style="color:black ">再次输入密码 </span>
+                <input type="password" id="pw2" name="password"
+                placeholder="请再次输入密码" 
+                class="inputtext"><br>
+            <br>
+    <div>学号</div>
+        <input type="text" name="studentID" 
+        class="inputtext"><br>
+    <br>
+    <div>手机</div>
+        <input type="text" id="tel" name="phone" maxlength=11 onblur="testtel()" 
+        placeholder="仅接受11位手机号"
+        class="inputtext"><br>
+        <div id="result"></div>
+    <br>
+    <div>行业</div>
+            <select name="industry_id" class="selecttext">
+                {% for industry in industries %}
+                <option value="{{ industry.id }}">{{ industry.name }}</option>
+                {% endfor %}
+            </select>
+    <br>
+    <div>城市</div>
+            <select name="city_id" class="selecttext">
+                {% for city in cities %}
+                <option value="{{ city.id }}">{{ city.name }}</option>
+                {% endfor %}
+            </select>
+    <br>
+    <div>推荐人用户名</div>
+        <input type="text" name="referrer" 
+        class="inputtext"><br>
+    <br>
+    <button type="submit"
+    style="background-color: rgb(77, 106, 200);border-radius: 35px;cursor:pointer;width:300px;height:35px; "> 注册</button>
+    {% csrf_token %}
+</form>
+{#    <br>#}
+{#    <p>点击 【进入问答匹配环节】按钮，计算问答得分，防止身份冒用</p>#}
+{#    <p>点击【管理员登录】小字部分，进入管理员登录界面</p>#}
+    </div>
+>>>>>>> d10299f008bcdd92517ebf7603adfb73852b7ecd
     </div>
 </body>
 

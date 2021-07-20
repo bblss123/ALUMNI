@@ -1,27 +1,100 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+<meta charset="utf-8">
+<title>校友会登录</title>
+<script>
+function check(){
+ var id=document.getElementById("id").value;
+ var pwd=document.getElementById("pwd").value
+ if(id==""){
+ alert("请输入用户名！");
+ return false;
+ }
+ if(pwd==""){
+ alert("请输入密码");
+ return false;
+ }
+ return true;
+}
+</script>
+<style>
+    #container{
+        width: 360px;
+        height: 400px;
+        position: relative;
+        top: 120px;
+        bottom: 0;
+        left: 700px;
+        right: 50px;
+        background-color: whitesmoke;
+        border-radius: 5%;
+    }
+    .inputtext{
+        border-style: solid;
+        border-color:white;
+        width:250px;
+        height: 25px;
+        text-align: center;
+    }
+    a:link{text-decoration: none;color:rgb(77, 106, 200);font-size: large;}
+    a:hover{text-decoration: underline;}
+    a:active{color: red;}
+    button:active{background-color:black;color: white;}
+    body{
+        background-image: url('media/img/share.png') ;
+        background-size: cover;
+    }
+</style>
 </head>
 <body>
-<h3>This is where you login </h3>
-<form action="/" method="post" name="form1">
-    <p>ID:
-        <input type="text" name="user_id">
-    </p>
-    <p>
-        Password:
-        <input type="password" name="user_password">
-    </p>
-    <p>
-        <input type="submit" value="LOGIN">
-    </p>
-    {% csrf_token %}
+    <div id="container">
+        <br>
+    <p align="center" style="font-size: larger;">登录校友会平台</p>
+<div  style="width:300px;"> 
+    <!--action处填写传入某文件处理的路径-->
+    <form name="input" action="/" method="POST">
+    <div style="font-size: large;position: relative; left:15%">用户名</div>
+    <div style="float:right">
+            <input type="text" name="user_id" id="id" class="inputtext"
+            placeholder="请输入用户名"
+            ><br>
+    </div>
+    <br><br>
+    <div style="font-size: large;float: left;position: relative; left:15%">密码</div>
+    <br>
+    <div style="float:right">
+            <input type="password" name="user_password"  id="pwd" class="inputtext"
+            placeholder="请输入密码"
+            ><br>
+            </div>
+    <br>
+    <div style="float:right">
+        <a href="../alumni/reset_password.html"  class="link"
+        >忘记密码?</a></div><br>
+    <div>
+        <br>
+    <button type="submit" onclick="return check()" 
+    style="border-radius:5%;background-color:rgb(77, 106, 200);cursor:pointer;width:250px;height:30px;position: relative; left:15%">
+        登录</button>
+    </div>
+        {% csrf_token %}
 </form>
-<form action="register/" method="get" name="form2">
-    <button>register</button>
+    </div>
+    <form action="register/" method="get" name="form2">
+    <button type="submit"
+    style="border-radius:5%;background-color:rgb(77, 106, 200);cursor:pointer;width:250px;height:30px;position: relative; left:12.5%; top: 10%">
+        注册</button>
+
     {% csrf_token %}
-</form>
+    </form>
+    <div style="float:right">
+        <a href="/admin"
+        class="link">管理员登录</a>
+</div>
+<br><br>
+<!-- <p style="position: relative; left:15%">点击【创建账号】按钮，进入注册界面</p> -->
+</div>
 </body>
 </html>

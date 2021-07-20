@@ -14,13 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,re_path
+from django.views.static import serve
 from alumni import views
+from Fduers import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    re_path(r'media/(?P<path>.*)$',serve,{'document_root':settings.MEDIA_ROOT}),
     path('', views.login),
     path('index/', views.index),
     path('register/', views.register),
-    path('home/', views.home)
+    path('postTie/', views.postTie),
+    re_path(r'tie/(?P<tieID>\d+)/$', views.tie)
 ]

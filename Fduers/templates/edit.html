@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            height: 1000px;
+        }
+        input::placeholder{
+            padding-left: 5px;
+            color: gray;
+        }
+        hr{
+            width: 600px;
+        }
+        button{
+            position: absolute;
+            left: 65%;
+            top: 600px;
+            width: 80px;
+            height: 30px;
+            font-family: 华文宋体;
+            font-weight: bold;
+            font-size: 20px;
+            color: black;
+            background-color: rgb(245, 246, 247);
+            border-color: #cbcbcb;
+        }
+        button:hover{
+            background-color: #d8fcf6;
+        }
+        select{
+            size: A5;
+            width: 200px;
+            height: 120px;
+            position: absolute;
+            left: 36%;
+            top: 550px;
+        }
+
+        option{
+            height: 23px;
+            font-size: 14px;
+            text-align: center;
+        }
+        option:hover{
+            background-color: #b1e2c5;
+        }
+
+        #label{
+            position: absolute;
+            left: 31%;
+            top: 550px;
+            color: #608983;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+
+
+
+    </style>
+</head>
+<body>
+<form action="/postTie/" method="post">
+<div style="width: 100%; height: 100px; text-align: center">
+    <input type="text" maxlength="10" placeholder="帖子标题" name="title" style=" width: 600px; height: 30px; outline: medium; font-size: 18px; font-weight: bold; margin-top: 70px; border: #ca6645 0px;">
+</div>
+<hr />
+<div id="div1" style="width: 600px; height: 300px; margin: auto; margin-top: 30px">
+
+</div>
+
+<textarea id="text1" name="content" style="width:100%; height:200px; border: #ca6645; display: none"></textarea>
+    <p id="label">标签</p>
+    <button type="submit">发布</button>
+    <select multiple="multiple" name="tags">
+        {% for tag in TagList %}
+            <option value="{{ tag.id }}">{{ tag.name }}</option>
+        {% endfor %}
+    </select>
+
+    {% csrf_token %}
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="{% static 'JS/wangEditor.min.js' %}"></script>
+<script type="text/javascript">
+    const E = window.wangEditor
+    const editor = new E('#div1')
+    const $text1 = $('#text1')
+    editor.config.onchange = function (html) {
+        $text1.val(html)
+    }
+    editor.config.uploadImgServer = '/upload-img'
+    editor.config.placeholder = '编写您的帖子...'
+
+    editor.create()
+
+    $text1.val(editor.txt.html())
+</script>
+</form>
+</body>
+</html>

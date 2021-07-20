@@ -19,8 +19,11 @@ def student_sheet_init(apps, schema_editor): # import ../generator/data/city_ver
     print('>>>>>>>>>>>>>>>>>>>>>>>>>>>')
     Student = apps.get_model('alumni', 'Student')
     Department = apps.get_model('alumni', 'Department')
+
+
+
     for row in stuList:
-        tmp = Student(name = row[0], studentID = row[1], department = Department(name = row[2]), grade = row[3])
+        tmp = Student(name = row[0], studentID = row[1], department = Department.objects.filter(name = row[2])[0], grade = row[3])
         print(row[0], row[1], row[2], row[3])
         tmp.save()
 

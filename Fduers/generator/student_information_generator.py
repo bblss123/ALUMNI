@@ -75,9 +75,9 @@ if __name__ == '__main__':
         for i in range(1000, 2000):
             department = departmentList[random.randint(2, departmentNumUpperBound - 1)]
             name = GenerateRandomName()
-            stuID = i
+            stuID = str(grade) + str(i)
             worksheet.write(i - 999, 0, name)
-            worksheet.write(i - 999, 1, str(stuID))
+            worksheet.write(i - 999, 1, stuID)
             worksheet.write(i - 999, 2, department)
 
     workbook.save(path)

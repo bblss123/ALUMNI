@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 
 class Department(models.Model):
-    name = models.CharField('院系', max_length=30, null=False, unique=True, primary_key = True)
+    name = models.CharField('院系', max_length=30, null=False, unique=True)
 
     class Meta:
         verbose_name = '院系'
@@ -56,7 +56,7 @@ class City(models.Model):
 class User(models.Model):
     username = models.CharField('用户名',max_length=30, primary_key=True)
     department = models.ForeignKey(Department, on_delete=models.DO_NOTHING, verbose_name='院系')
-    major = models.ForeignKey(Major, on_delete=models.DO_NOTHING, verbose_name='专业')
+    # major = models.ForeignKey(Major, on_delete=models.DO_NOTHING, verbose_name='专业')
     mail = models.CharField('邮箱',max_length=20)
     grade = models.IntegerField('届次')
     studentID = models.CharField('学号', max_length=20)
@@ -65,6 +65,8 @@ class User(models.Model):
     city = models.ForeignKey(City, on_delete=models.DO_NOTHING, verbose_name='城市')
     referrer = models.CharField('推荐人',max_length=30)
     password = models.CharField('密码',max_length=20)
+    photo = models.ImageField(upload_to='user_photo/%Y/%m/%d',verbose_name='头像',blank=True, null=True, default='img/default.jpg')
+    essay = models.TextField('个性签名', max_length=30, default='')
 
     class Meta:
         verbose_name = '用户'
@@ -129,6 +131,13 @@ class Reply(models.Model):  # 楼层
     class Meta:
         verbose_name = '楼层'
         verbose_name_plural = '楼层'
+
+class Test(models.Model):
+    content = models.TextField(max_length=3000)
+
+    class Meta:
+        verbose_name = 'test'
+        verbose_name_plural = 'test'
 
 class Student(models.Model): # 存放管理员导入的表单
     name = models.CharField('姓名', max_length = 50)

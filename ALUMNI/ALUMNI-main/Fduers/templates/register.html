@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>校友会注册</title>
+<script src="../alumni/jquery.min.js">
+</script>
+<script>
+function testtel(){
+    if(document.getElementById("tel").value.length!=11)
+    {alert("请输入十一位电话号码！");
+    }
+}
+function testpwdl(){
+    if(document.getElementById("pw1").value.length<8||document.getElementById("pw1").value.length>16)
+    {alert("请输入8-16位密码！");
+    return false;
+    }
+}
+function testpwd(){
+    if(document.getElementById("pw1").value!=document.getElementById("pw2").value)
+    {alert("两次密码输入不一致！");
+    return false;
+    }
+}
+/*function testifblank(str){
+    if(str.length=="")
+    alert("请输入内容！");
+}*/
+function check(){
+    if(testpwdl()==false) return false;
+    if(testpwd()==false) return false;
+ var em=document.getElementById("em").value;
+ var id=document.getElementById("id").value;
+ var pwd=document.getElementById("pw2").value
+ if(em==""){
+     alert("请输入邮箱");
+     return false;
+ }
+ if(id==""){
+ alert("请输入用户名！");
+ return false;
+ }
+ if(pwd==""){
+ alert("请输入密码");
+ return false;
+ }
+ return true;
+}
+</script>
+<style>
+    .inputtext{
+        border-style: solid;
+        border-color:white;
+        width:290px;
+        height: 25px;
+        text-align: center;
+        position: relative;
+    }
+    .selecttext{
+        width:300px;
+        height: 35px;
+        background-color:whitesmoke;
+
+    }
+    #container{
+        width:300px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        /*background-color:whitesmoke;*/
+        border-radius:4%;
+        /*overflow: scroll;*/
+    }
+    a:link{text-decoration: none;color:rgb(77, 106, 200);font-size: large;}
+    a:hover{text-decoration: underline;}
+    a:active{color: red;}
+    button:active{background-color:rgb(58, 33, 33);color:white;}
+    body{
+        background-image: url('media/img/bkg_blue.png');
+        background-size: cover;
+    }
+</style>
+</head>
+<body>
+    <div id="container" >
+    <h1 align="center">创建账号</h1>
+<div> 
+    <p style="color:red;">*为必填内容</p>
+    <a href="../alumni/login.html" class="link" style="float:right;font-size: medium;">已有账号?登录-->
+    </a>
+    <br><br>
+    <!--action处填写传入某文件处理的路径-->
+    <form name="input" action="" method="POST" autocomplete="off">
+    <span style="color: red;">*</span><span style="color:black ">院系 </span>
+            <select name="department_id" class="selecttext">
+            {% for dept in departments %}
+                <option value="{{ dept.id }}">{{ dept.name }}</option>
+            {% endfor %}
+            </select>
+    <br>
+    <span style="color: red">*</span><span style="color:black ">届次 </span>
+            <select name="grade" class="selecttext">
+            <option value="2019">2019</option>
+            <option value="2018">2018</option>
+                <option value="2018">2017</option>
+
+            </select>
+    <br>
+    <span style="color: red">*</span><span style="color:black ">专业 </span>
+            <select name="major_id" class="selecttext">
+                {% for major in majors %}
+                <option value="{{ major.id }}">{{ major.name }}</option>
+                {% endfor %}
+            </select>
+    <br>
+    <span style="color: red">*</span><span style="color:black ">邮箱 </span>
+                <input type="email" name="mail" id="em" class="inputtext"
+                placeholder="请输入邮箱"><br>
+            <br>
+    <span style="color: red">*</span><span style="color:black ">用户名 </span>
+                <input type="text" name="username" id="id" class="inputtext"
+                placeholder="请输入用户名"><br>
+            <br>
+    <span style="color: red">*</span><span style="color:black ">密码 </span>
+                <input type="password" id="pw1" name="password" 
+                placeholder="请输入8-16位密码"
+                class="inputtext"><br>
+            <br>
+ <span style="color: red">*</span><span style="color:black ">再次输入密码 </span>
+                <input type="password" id="pw2" name="password"
+                placeholder="请再次输入密码" 
+                class="inputtext"><br>
+            <br>
+    <div>学号</div>
+        <input type="text" name="studentID" 
+        class="inputtext"><br>
+    <br>
+    <div>手机</div>
+        <input type="text" id="tel" name="phone" maxlength=11 onblur="testtel()" 
+        placeholder="仅接受11位手机号"
+        class="inputtext"><br>
+        <div id="result"></div>
+    <br>
+    <div>行业</div>
+            <select name="industry_id" class="selecttext">
+                {% for industry in industries %}
+                <option value="{{ industry.id }}">{{ industry.name }}</option>
+                {% endfor %}
+            </select>
+    <br>
+    <div>城市</div>
+            <select name="city_id" class="selecttext">
+                {% for city in cities %}
+                <option value="{{ city.id }}">{{ city.name }}</option>
+                {% endfor %}
+            </select>
+    <br>
+    <div>推荐人用户名</div>
+        <input type="text" name="referrer" 
+        class="inputtext"><br>
+    <br>
+    <button type="submit"
+    style="background-color: rgb(77, 106, 200);border-radius: 35px;cursor:pointer;width:300px;height:35px; "> 注册</button>
+    {% csrf_token %}
+</form>
+{#    <br>#}
+{#    <p>点击 【进入问答匹配环节】按钮，计算问答得分，防止身份冒用</p>#}
+{#    <p>点击【管理员登录】小字部分，进入管理员登录界面</p>#}
+    </div>
+    </div>
+</body>
+</html>

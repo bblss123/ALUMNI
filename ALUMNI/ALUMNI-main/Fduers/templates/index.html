@@ -1,0 +1,212 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>首页</title>
+		<link rel="stylesheet" href='{% static 'CSS/index.css' %}' />
+	</head>
+	<body>
+        <a href="/">
+            <img src="media/img/logout.png" style="width: 40px; height: 40px; position: absolute; right: 5%; top: 5%">
+        </a>
+		<!-- 顶部导航条 -->
+		<nav id="nav0">
+			<a href="www.baidu.com" class="nav0">首页</a>
+			<a href="www.baidu.com" class="nav0">图书</a>
+			<a href="www.baidu.com" class="nav0">论坛</a>
+		</nav>
+		<!-- # 顶部导航条与搜索栏 -->
+		<header>
+			<div id="head_logo">
+				
+			</div>
+			<nav id="nav1">
+				<a href="www.baidu.com" class="nav1">首页</a>
+				<a href="www.baidu.com" class="nav1">图书</a>
+				<a href="www.baidu.com" class="nav1">论坛</a>
+				<a href="www.baidu.com" class="nav1">同城</a>
+			</nav>
+			<div id="search">
+				<input type="text" id="search_text" />
+				<img src='media/img/search.png' id="search_logo"/>
+			</div>
+		</header>
+		<!-- # 主体部分 -->
+		<div id="main">
+			<div id="me">
+				<div id="head_img">
+					<img src="media/{{ user.photo }}" id="head_img"/>
+				</div>
+				<div id="person_msg">
+					<p id="username">{{ user.username }}</p>
+					<p id="industry">
+                         {{ user.industry }}
+                    </p>
+					<p id="essay">{{ user.essay }}</p>
+				</div>
+				<div class="line1">
+				</div>
+				<!-- 个人栏菜单 -->
+				<div id="menu">
+					<div class="menu_logo">
+						<img class="menu_logo_img" src="media/img/mail.png"/>
+					</div>
+					<div class="menu_textBox">
+						<a href="mail.html" class="nav2">
+							我的消息
+						</a>
+					</div>
+					<div class="menu_logo">
+						<img class="menu_logo_img" src="media/img/act.png"/>
+					</div>
+					<div class="menu_textBox">
+						<a href="mail.html" class="nav2">
+							我的活动
+						</a>
+					</div>
+				</div>
+				<div class="line1">	
+				</div>
+				<div id="mygroup">
+					<div class="group_logo">
+						<img class="group_logo_img" src="media/img/school.jpg"/>
+					</div>
+					<div class="group_name">
+						<a href="group.html" class="link_group">复旦大学校友会</a>
+					</div>
+					<div class="group_state">
+						<p class="group_state_text">10010人</p>
+					</div>
+					
+					<div class="group_logo">
+						<img class="group_logo_img" src="media/img/shanghai.jpg" />
+					</div>
+					<div class="group_name">
+						<a href="group.html" class="link_group">上海校友会</a>
+					</div>
+					<div class="group_state">
+						<p class="group_state_text">110人</p>
+					</div>
+					
+					<div class="group_logo">
+						<img class="group_logo_img" src="media/img/group3.jpg">
+					</div>
+					<div class="group_name">
+						<a href="group.html" class="link_group">旅游社团</a>
+					</div>
+					<div class="group_state">
+						<p class="group_state_text">12人</p>
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<div id="content">
+				{% for Tie in TieList %}
+				    <div class="tie">
+						<div class="tie_creator">
+							<div class="tie_photo">
+								<img class="tie_photo_img" src="media/{{ Tie.author.photo }}"/>
+							</div>
+							<div class="tie_username">
+								<p class="tie_username_text">{{ Tie.author.username }}</p>
+							</div>
+						</div>
+						<div class="tie_body">
+							<div class="tie_title">
+								<a href="/tie/{{ Tie.id }}" class="link_tie">{{ Tie.title }}</a>
+							</div>
+							<div class="tie_created_time">
+								<p class="tie_time_text">
+									{{ Tie.createdTime }}
+								</p>
+							</div>
+							<div class="tie_content">
+{#								<p class="tie_content_text">#}
+{#									{{ Tie.content }}#}
+{#								</p>#}
+                                {% autoescape off %}
+                                    {{ Tie.content }}
+                                {% endautoescape %}
+							</div>
+							<div class="tie_anno">
+								<p class="tie_anno_text">
+                                    {% for tag in Tie.tag.all %} {{ tag }} {% endfor %}
+								</p>
+								<p class="tie_anno_text">
+									{{ Tie.access }}次浏览
+								</p>
+							</div>
+							<div class="line2">
+							</div>
+						</div>
+				    </div>
+					
+				{% endfor %}
+			</div>
+			<div id="topics">
+				<p id="topics_text">Hot</p>
+
+				<div class="hotTie">
+					<!-- 热帖排名 -->
+					<div class="rank">
+						<p class="rank_text">1</p>
+					</div>
+					<!-- 热帖标题 -->
+					<div class="hotTie_title">
+						<a href="/tie/{{ TieTOP1.id }}" class="link_hot">{{ TieTOP1.title }}</a>
+					</div>
+					<!-- 热度值展示框 -->
+					<div class="hotValue">
+						<p class="hotValue_text">{{ TieTOP1.access }}浏览</p>
+					</div>
+					<!-- 热帖图片 -->
+					<img class="hotTie_img" src="media/img/hot.jpg">
+					<!-- 分割线 -->
+					<div class="line3"></div>
+				</div>
+				<div class="hotTie">
+					<!-- 热帖排名 -->
+					<div class="rank">
+						<p class="rank_text">2</p>
+					</div>
+					<!-- 热帖标题 -->
+					<div class="hotTie_title">
+						<a href="/tie/{{ TieTOP2.id }}" class="link_hot">{{ TieTOP2.title }}</a>
+					</div>
+					<!-- 热度值展示框 -->
+					<div class="hotValue">
+						<p class="hotValue_text">{{ TieTOP2.access }}浏览</p>
+					</div>
+					<!-- 热帖图片 -->
+					<img class="hotTie_img" src="media/img/hot.jpg">
+					<!-- 分割线 -->
+					<div class="line3"></div>
+				</div>
+				<div class="hotTie">
+					<!-- 热帖排名 -->
+					<div class="rank">
+						<p class="rank_text">3</p>
+					</div>
+					<!-- 热帖标题 -->
+					<div class="hotTie_title">
+						<a href="/tie/{{ TieTOP3.id }}" class="link_hot">{{ TieTOP3.title }}浏览</a>
+					</div>
+					<!-- 热度值展示框 -->
+					<div class="hotValue">
+						<p class="hotValue_text">{{ TieTOP3.access }}</p>
+					</div>
+					<!-- 热帖图片 -->
+					<img class="hotTie_img" src="media/img/hot.jpg">
+					<!-- 分割线 -->
+					<div class="line3"></div>
+				</div>
+			</div>
+		</div>
+    <a href="/postTie">
+			<button style="width: 120px; border-radius: 20%;position: fixed; height: 50px; color: saddlebrown; font-size: 20px; left: 67%; top: 90%;">发布帖子</button>
+    </a>
+	</body>
+</html>

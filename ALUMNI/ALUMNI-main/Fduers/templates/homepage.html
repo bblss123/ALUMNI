@@ -1,0 +1,100 @@
+<!DOCTYPE html>{% load static %}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Home Page</title>
+<script src="https://code.jquery.com/jquery.js"></script>
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<!--导航栏-->
+<div class="mt-4 mb-5">
+  <ul id="clothing-nav" class="nav nav-tabs" role="tablist">
+
+    <li class="nav-item">
+      <a class="nav-link active" href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true">主站</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link active" href="#postTie" role="tab" id="postTie-tab" data-toggle="tab" aria-controls="postTie" aria-expanded="true">发帖</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link active" href="#followedTie" role="tab" id="followedTie-tab" data-toggle="tab" aria-controls="followedTie" aria-expanded="true">已关注的帖子</a>
+    </li>
+
+    <!-- Dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="true"
+        aria-expanded="false">
+        地域社区
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#dropdown-shanghai" role="tab" id="Tie-shanghai-tab" data-toggle="tab" aria-controls="dropdownshanghai">上海</a>
+        <a class="dropdown-item" href="#dropdown-beijing" role="tab" id="Tie-beijing-tab" data-toggle="tab" aria-controls="dropdownbeijing">北京</a>
+      </div>
+    </li>
+
+      <!-- Dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="true"
+        aria-expanded="false">
+        行业社区
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#dropdown-cs" role="tab" id="dropdown-cs-tab" data-toggle="tab" aria-controls="dropdowncs">计算机</a>
+        <a class="dropdown-item" href="#dropdown-language" role="tab" id="dropdown-language-tab" data-toggle="tab" aria-controls="dropdownlanguage">小语种</a>
+      </div>
+    </li>
+
+  </ul>
+
+  <!-- Content Panel -->
+  <div id="clothing-nav-content" class="tab-content">
+
+    <div role="tabpanel" class="tab-pane fade show active" id="home" aria-labelledby="home-tab">
+        <div class="container">
+          <div class="row">
+              <div class="col-sm-4">
+                <div class="personal info">
+                    <a><img src=""></a>
+                </div>
+              </div>
+          </div>
+        </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane fade" id="postTie" aria-labelledby="postTie-tab">
+      <p>发帖页面</p>
+    </div>
+
+    <div role="tabpanel" class="tab-pane fade" id="followedTie" aria-labelledby="followedTie-tab">
+      <p>已关注的话题</p>
+    </div>
+
+    <div role="tabpanel" class="tab-pane fade" id="dropdown-shanghai" aria-labelledby="dropdown-shanghai-tab">
+      <p>这里是上海帖子社区</p>
+    </div>
+
+    <div role="tabpanel" class="tab-pane fade" id="dropdown-beijing" aria-labelledby="dropdown-beijing-tab">
+      <p>这里是北京帖子社区</p>
+    </div>
+
+    <div role="tabpanel" class="tab-pane fade" id="dropdown-cs" aria-labelledby="dropdown-cs-tab">
+      <p>这里是计算机帖子社区</p>
+    </div>
+
+    <div role="tabpanel" class="tab-pane fade" id="dropdown-language" aria-labelledby="dropdown-language-tab">
+      <p>这里是小语种帖子社区</p>
+    </div>
+
+  </div>
+</div>
+
+
+</body>
+</html>

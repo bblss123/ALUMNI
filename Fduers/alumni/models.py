@@ -15,18 +15,6 @@ class Department(models.Model):
         return self.name
 
 
-class Major(models.Model):
-    name = models.CharField('专业', max_length=30, null=False, unique=True)
-    department = models.ForeignKey(Department, on_delete=models.DO_NOTHING, verbose_name='所属院系')
-
-    class Meta:
-        verbose_name = '专业'
-        verbose_name_plural = '专业'
-
-    def __str__(self):
-        return self.name
-
-
 class Industry(models.Model):
     name = models.CharField('行业', max_length=30, null=False, unique=True)
 
@@ -37,9 +25,12 @@ class Industry(models.Model):
     def __str__(self):
         return self.name
 
+class Province(models.Model):
+    name = models.CharField('省份', max_length=30, null=False, unique=True, primary_key = True)
 
 class City(models.Model):
-    name = models.CharField('城市', max_length=30, null=False, unique=True)
+    name = models.CharField('城市', max_length=30, null=False, unique = False)
+    province = models.ForeignKey(Province, on_delete = models.DO_NOTHING, db_column = 'f', default="北京")
 
     class Meta:
         verbose_name = '城市'
@@ -50,9 +41,8 @@ class City(models.Model):
 
 
 class User(models.Model):
-    username = models.CharField('用户名',max_length=30)
+    username = models.CharField('用户名',max_length=30, primary_key = True)
     department = models.ForeignKey(Department, on_delete=models.DO_NOTHING, verbose_name='院系')
-    # major = models.ForeignKey(Major, on_delete=models.DO_NOTHING, verbose_name='专业')
     mail = models.CharField('邮箱',max_length=20)
     grade = models.IntegerField('届次')
     studentID = models.CharField('学号', max_length=20)

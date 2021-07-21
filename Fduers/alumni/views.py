@@ -5,7 +5,6 @@ from .models import User
 from .models import Tie
 from .models import Tag
 from .models import City
-from .models import Major
 from .models import Department
 from .models import Industry
 

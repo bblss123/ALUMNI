@@ -43,7 +43,7 @@ class City(models.Model):
 class User(models.Model):
     username = models.CharField('用户名',max_length=30, primary_key = True)
     department = models.ForeignKey(Department, on_delete=models.DO_NOTHING, verbose_name='院系')
-    mail = models.CharField('邮箱',max_length=20)
+    mail = models.EmailField('邮箱',max_length=200)
     grade = models.IntegerField('届次')
     studentID = models.CharField('学号', max_length=20)
     phone = models.CharField('电话',max_length=20)
@@ -135,3 +135,22 @@ class Student(models.Model): # 存放管理员导入的表单
     studentID = models.CharField('学号', max_length = 20)
     grade = models.IntegerField('界次')
     department = models.ForeignKey(Department, on_delete=models.DO_NOTHING, verbose_name='院系')
+
+    class Meta:
+        verbose_name = '学生信息'
+        verbose_name_plural = '学生信息'
+    
+    def __str__(self):
+        return self.studentID + ' ' + self.name
+
+class StudentSheet(models.Model): # 存放管理员上传的同学表单
+    upload = models.FileField(upload_to='uploads/%Y/%m/%d/')
+    
+    class Meta:
+        verbose_name = '学生表单'
+        verbose_name_plural = '导入学生表单'
+    
+    def __str__(self):
+        return self.upload
+
+

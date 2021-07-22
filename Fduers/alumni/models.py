@@ -132,7 +132,7 @@ class Test(models.Model):
 
 class Student(models.Model): # 存放管理员导入的表单
     name = models.CharField('姓名', max_length = 50)
-    studentID = models.CharField('学号', max_length = 20)
+    studentID = models.CharField('学号', max_length = 20, unique = True)
     grade = models.IntegerField('界次')
     department = models.ForeignKey(Department, on_delete=models.DO_NOTHING, verbose_name='院系')
 
@@ -145,12 +145,13 @@ class Student(models.Model): # 存放管理员导入的表单
 
 class StudentSheet(models.Model): # 存放管理员上传的同学表单
     upload = models.FileField(upload_to='uploads/%Y/%m/%d/')
+    hasBeenProceeded = models.BooleanField(default = False)
     
     class Meta:
         verbose_name = '学生表单'
-        verbose_name_plural = '导入学生表单'
+        verbose_name_plural = '学生表单'
     
     def __str__(self):
-        return self.upload
+        return str(self.upload)
 
 

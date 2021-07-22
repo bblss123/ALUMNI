@@ -1,9 +1,14 @@
 import xlrd
+import sys
+import os
+sys.path.append('../')
+from Fduers.settings import MEDIA_ROOT
 
 def decode(path):
     if not (path.endswith(".xls") or path.endswith(".xlsx")): # isn't an excel file, return a blank list
         return []
     
+    path = os.path.join(MEDIA_ROOT, path)
     data = xlrd.open_workbook(path)
 
     sheetName = data.sheet_names()

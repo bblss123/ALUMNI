@@ -9,23 +9,18 @@ import django.db.models.deletion
 import sqlite3
 import os
 from functionality.readexcel import decode
+from functionality.importstudentsheet import importdata
 
 dbpath = './generator/data/city_version-4.sqlite'
 sheetpath = './generator/data/example.xls'
 
 def student_sheet_init(apps, schema_editor): # import ../generator/data/city_version-4.sqlite into model city and province
     stuList = decode(sheetpath)
-    print()
-    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+
     Student = apps.get_model('alumni', 'Student')
     Department = apps.get_model('alumni', 'Department')
 
-
-
-    for row in stuList:
-        tmp = Student(name = row[0], studentID = row[1], department = Department.objects.filter(name = row[2])[0], grade = row[3])
-        print(row[0], row[1], row[2], row[3])
-        tmp.save()
+    importdata(Student, Department, stuList)
 
 class Migration(migrations.Migration):
     dependencies = [

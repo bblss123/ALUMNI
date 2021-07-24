@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>submit1</title>
+	<link href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css" rel="stylesheet" />
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+
+<body>
+	<div class="color-shadow-medium p-3" style="margin: auto; width: 50%; margin-top: 50px;">
+		<form>
+			<!-- icon -->
+			<div id="icon" style="margin: auto; text-align: center;">
+				<span class="anim-fade-in">
+					<svg t="1627018712507" class="icon" viewBox="0 0 1024 1024" version="1.1"
+						xmlns="http://www.w3.org/2000/svg" p-id="2241" width="40" height="40">
+						<path
+							d="M229.7 364.4h-0.2 0.2z m40.5-32.9h0.1c22.5 0 40.7-18.2 40.7-40.7V178.2c0-22.5-18.2-40.7-40.7-40.7h-0.1c-22.5 0-40.7 18.2-40.7 40.7v112.7c0 22.4 18.2 40.6 40.7 40.6zM929 266.4c-2.3-57.5-48.4-47.8-48.4-47.8H848v97.3s-6.6 48.5-48.7 48.6h-0.5c-13.7 0-37.8-0.1-64.7 0h-16.3c-43-1.4-48.8-48.6-48.8-48.6v-97.3H359.8v97.3s-5.8 47.2-48.8 48.6h-16.3c-27.1-0.1-51.3 0-65 0h-0.1c-1.3 0-0.7 0 0 0-42.2-0.1-48.8-48.6-48.8-48.6v-97.3h-32.5s-46.1-9.7-48.4 47.8c-0.3 2.3-0.4 3.7-0.4 3.7s0.1 531.8 0.1 555.4c0 57.1 57.4 57.6 57.4 57.6h714.9s57.4-0.5 57.4-57.6c0-23.6 0.1-555.4 0.1-555.4s-0.1-1.4-0.4-3.7zM515.5 766c0 43.6-82.9 53.6-160.8 53.6-77.7 0-161.7-9.9-161.7-53.6v-12c0-32 57.3-64.5 106.2-82.3 3.5-1.3 20.4-10.6 11-35.5-24.2-24.9-42.5-65.3-42.5-105 0-60.8 39.9-92.7 86.6-92.7 46.7 0 86.8 31.9 86.8 92.7 0 39.6-18.4 79.7-42.5 104.7h0.1c-9.2 28.3 5.5 35 7.9 35.8 51.3 17.1 108.9 49.3 108.9 82.3v12z m292-12.4h-163c-22.3 0-40.4-18.1-40.4-40.4 0-22.3 18.1-40.4 40.4-40.4h163c22.3 0 40.4 18.1 40.4 40.4 0 22.3-18.1 40.4-40.4 40.4z m0-162.4h-163c-22.3 0-40.4-18.1-40.4-40.4 0-22.3 18.1-40.4 40.4-40.4h163c22.3 0 40.4 18.1 40.4 40.4 0 22.3-18.1 40.4-40.4 40.4z m-8.2-226.8h-0.4 0.4c-0.1 0 0 0 0 0z m-40.9-32.9h0.1c22.5 0 40.7-18.2 40.7-40.7V178.2c0-22.5-18.2-40.7-40.7-40.7h-0.1c-22.5 0-40.7 18.2-40.7 40.7v112.7c0.1 22.4 18.3 40.6 40.7 40.6z"
+							p-id="2242" fill="#1296db"></path>
+					</svg>
+				</span>
+			</div>
+			<br />
+
+			<!-- username -->
+			<div class="form-group">
+				<div class="form-group" id="group_username">
+					<div class="form-group-header">
+						<label for="username-input">Username</label>
+					</div>
+					<div class="form-group-body">
+						<input class="form-control" type="text" id="username-input"
+							aria-describedby="username-input-validation" />
+					</div>
+					<p class="note success" id="username-input-validation"></p>
+					<p id="tobr" style="display: none;"><br></p>
+				</div>
+
+			</div>
+
+			<!-- username-check-script -->
+			<script>
+				var namelist = ['chenhao', 'mochou'];
+				// isInArray作用：查询用户名是否已经存在
+				function isInArray(arr, val) {
+					for (var i = 0; i < arr.length; i++) {
+						if (val === arr[i])
+							return true;
+					}
+					return false;
+				}
+				// 用户名是否就绪
+				var usernameIsOK = false;
+				var isEmpty = true;
+				// 控制note的显示与隐藏
+				$("#username-input").bind("input propertychange", function (event) {
+					if ($("#username-input").val() === "") {
+						usernameIsOK = false;
+						$("#group_username").attr("class", "form-group");
+						$("#username-input-validation").attr("class", "note success");
+						$("#username-input-validation").text("");
+						// 从非空转到空时，将换行隐藏
+						if (!isEmpty) {
+							document.getElementById('tobr').style.display = 'none';
+							console.log('delete br');
+							isEmpty = true;
+						}
+					} else {
+						// 从空转到非空时，将换行显示
+						if (isEmpty) {
+
+							document.getElementById('tobr').style.display = 'inline';
+							console.log('append br');
+							isEmpty = false;
+						}
+						if (isInArray(namelist, $("#username-input").val())) {
+							usernameIsOK = false;
+							$("#group_username").attr("class", "form-group errored");
+							$("#username-input-validation").attr("class", "note error");
+							$("#username-input-validation").text("this username has been used");
+						} else {
+							usernameIsOK = true;
+							$("#group_username").attr("class", "form-group successed");
+							$("#username-input-validation").attr("class", "note success");
+							$("#username-input-validation").text("this username is avaliable");
+
+						}
+					}
+				})
+			</script>
+
+			<!-- password -->
+			<div class="form-group" id="group_password">
+				<div class="form-group-header">
+					<label for="password-text">Password</label>
+				</div>
+				<div class="form-group-body">
+					<input class="form-control" type="password" id="password-input"
+						aria-describedby="password-input-validation" />
+				</div>
+				<p class="note success" id="password-input-validation"></p>
+				<p id="tobr1" style="display: none;"><br></p>
+			</div>
+
+			<!-- confirm password -->
+			<div class="form-group" id="group_cpassword">
+				<div class="form-group-header">
+					<label for="password-text">CheckPassword</label>
+				</div>
+				<div class="form-group-body">
+					<input class="form-control" type="password" id="Cpassword-input" disabled="disabled"
+						aria-describedby="cpassword-input-validation" />
+				</div>
+				<p class="note success" id="cpassword-input-validation"></p>
+				<p id="tobr2" style="display: none;"><br></p>
+			</div>
+
+			<!-- password-check-script -->
+			<script>
+				//密码强度正则，最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符
+				var pPattern = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/;
+				//input是否为空
+				var isEmpty1 = true;
+				//password是否符合要求 
+				var passwordIsOK = false;
+				// 控制note的显示与隐藏
+				$("#password-input").bind("input propertychange", function (event) {
+					if ($("#password-input").val() === "") {
+						passwordIsOK = false;
+						// 如果密码不符合要求，确认密码栏应关闭，确认密码栏应清空并恢复原状
+						$("#Cpassword-input").attr("disabled", "disabled");
+						$("#group_cpassword").attr("class", "form-group");
+						$("#cpassword-input-validation").attr("class", "note success");
+						$("#cpassword-input-validation").text("");
+						$("#Cpassword-input").val("");
+						document.getElementById('tobr2').style.display = 'none';
+						console.log('delete br');
+						isEmpty2 = true;
+						// ------------------------------
+						$("#group_password").attr("class", "form-group");
+						$("#password-input-validation").attr("class", "note success");
+						$("#password-input-validation").text("");
+						// 从非空转到空时，将换行隐藏
+						if (!isEmpty1) {
+							document.getElementById('tobr1').style.display = 'none';
+							console.log('delete br');
+							isEmpty1 = true;
+						}
+					} else {
+						// 从空转到非空时，将换行显示
+						if (isEmpty1) {
+							document.getElementById('tobr1').style.display = 'inline';
+							console.log('append br');
+							isEmpty1 = false;
+						}
+						if (!pPattern.test($("#password-input").val())) {
+							passwordIsOK = false;
+							$("#Cpassword-input").attr("disabled", "disabled");
+							$("#Cpassword-input").val("");
+							$("#group_cpassword").attr("class", "form-group");
+							$("#cpassword-input-validation").attr("class", "note success");
+							$("#cpassword-input-validation").text("");
+							document.getElementById('tobr2').style.display = 'none';
+							console.log('delete br');
+							isEmpty2 = true;
+							// --------------------------------------------
+							$("#group_password").attr("class", "form-group errored");
+							$("#password-input-validation").attr("class", "note error");
+							$("#password-input-validation").text(
+								"password at least 6 characters, including at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 special character"
+							);
+						} else {
+							passwordIsOK = true;
+							$("#Cpassword-input").removeAttr("disabled");
+							$("#Cpassword-input").val("");
+							$("#group_cpassword").attr("class", "form-group");
+							$("#cpassword-input-validation").attr("class", "note success");
+							$("#cpassword-input-validation").text("");
+							document.getElementById('tobr2').style.display = 'none';
+							console.log('delete br');
+							isEmpty2 = true;
+							// ----------------------------------------------
+							$("#group_password").attr("class", "form-group successed");
+							$("#password-input-validation").attr("class", "note success");
+							$("#password-input-validation").text("this password is avaliable");
+
+						}
+					}
+				})
+
+				var isEmpty2 = true;
+				//password是否符合要求 
+				var cpasswordIsOK = false;
+				$("#Cpassword-input").bind("input propertychange", function (event) {
+					if ($("#Cpassword-input").val() === "") {
+						cpasswordIsOK = false;
+						$("#group_cpassword").attr("class", "form-group");
+						$("#cpassword-input-validation").attr("class", "note success");
+						$("#cpassword-input-validation").text("");
+						// 从非空转到空时，将换行隐藏
+						if (!isEmpty2) {
+							document.getElementById('tobr2').style.display = 'none';
+							console.log('delete br');
+							isEmpty2 = true;
+						}
+					} else {
+						// 从空转到非空时，将换行显示
+						if (isEmpty2) {
+							document.getElementById('tobr2').style.display = 'inline';
+							console.log('append br');
+							isEmpty2 = false;
+						}
+						if ($("#password-input").val() !== $("#Cpassword-input").val()) {
+							cpasswordIsOK = false;
+							$("#group_cpassword").attr("class", "form-group errored");
+							$("#cpassword-input-validation").attr("class", "note error");
+							$("#cpassword-input-validation").text(
+								"The password is inconsistent with the previous one"
+							);
+						} else {
+							cpasswordIsOK = true;
+							$("#group_cpassword").attr("class", "form-group successed");
+							$("#cpassword-input-validation").attr("class", "note success");
+							$("#cpassword-input-validation").text("password checked");
+
+						}
+					}
+				})
+			</script>
+
+			<!-- gender -->
+			<div class="form-group">
+				<div class="form-group-header">
+					<label for="example-text">Gender</label>
+				</div>
+				<div class="form-group-body">
+
+					<div class="radio-group">
+						<input class="radio-input" id="option-a" type="radio" name="options">
+						<label class="radio-label" for="option-a">boy</label>
+						<input class="radio-input" id="option-b" type="radio" name="options">
+						<label class="radio-label" for="option-b">girl</label>
+						<input class="radio-input" id="option-c" type="radio" name="options" checked="checked">
+						<label class="radio-label" for="option-c">hidden</label>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- phone -->
+			<div class="form-group">
+				<div class="form-group" id="group_phone">
+					<div class="form-group-header">
+						<label for="phone-input">Phone</label>
+					</div>
+					<div class="form-group-body">
+						<input class="form-control" type="text" id="phone-input" maxlength=11
+							aria-describedby="phone-input-validation" />
+					</div>
+					<p class="note success" id="phone-input-validation"></p>
+					<p id="tobr3" style="display: none;"><br></p>
+				</div>
+
+			</div>
+
+			<!-- check phone -->
+			<script>
+				//手机号正则
+				var phonePattern = /^1[34578]\d{9}$/;
+				//input是否为空
+				var isEmpty3 = true;
+				//phone是否符合要求 
+				var phoneIsOK = false;
+				// 控制note的显示与隐藏
+				$("#phone-input").bind("input propertychange", function (event) {
+					if ($("#phone-input").val() === "") {
+						phoneIsOK = false;
+
+						$("#group_phone").attr("class", "form-group");
+						$("#phone-input-validation").attr("class", "note success");
+						$("#phone-input-validation").text("");
+						// 从非空转到空时，将换行隐藏
+						if (!isEmpty3) {
+							document.getElementById('tobr3').style.display = 'none';
+							console.log('delete br');
+							isEmpty3 = true;
+						}
+					} else {
+						// 从空转到非空时，将换行显示
+						if (isEmpty3) {
+							document.getElementById('tobr3').style.display = 'inline';
+							console.log('append br');
+							isEmpty3 = false;
+						}
+						if (!phonePattern.test($("#phone-input").val())) {
+							phoneIsOK = false;
+
+							$("#group_phone").attr("class", "form-group errored");
+							$("#phone-input-validation").attr("class", "note error");
+							$("#phone-input-validation").text(
+								"Please enter a valid mobile phone number"
+							);
+						} else {
+							phoneIsOK = true;
+
+							$("#group_phone").attr("class", "form-group successed");
+							$("#phone-input-validation").attr("class", "note success");
+							$("#phone-input-validation").text("Phone number is avaliable");
+
+						}
+					}
+				})
+			</script>
+
+			<!-- email -->
+			<div class="form-group">
+				<div class="form-group" id="group_email">
+					<div class="form-group-header">
+						<label for="email-input">Email</label>
+					</div>
+					<div class="form-group-body">
+						<input class="form-control" type="email" id="email-input" maxlength=17
+							aria-describedby="email-input-validation" />
+					</div>
+					<p class="note success" id="email-input-validation"></p>
+					<p id="tobr4" style="display: none;"><br></p>
+				</div>
+
+			</div>
+
+			<!-- check email -->
+			<script>
+				//邮箱正则
+				var emailPattern = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+				//input是否为空
+				var isEmpty4 = true;
+				//email是否符合要求 
+				var emailIsOK = false;
+
+				// 控制note的显示与隐藏
+				$("#email-input").bind("input propertychange", function (event) {
+					if ($("#email-input").val() === "") {
+						emailIsOK = false;
+
+						$("#group_email").attr("class", "form-group");
+						$("#email-input-validation").attr("class", "note success");
+						$("#email-input-validation").text("");
+						// 从非空转到空时，将换行隐藏
+						if (!isEmpty4) {
+							document.getElementById('tobr4').style.display = 'none';
+							console.log('delete br');
+							isEmpty4 = true;
+						}
+					} else {
+						// 从空转到非空时，将换行显示
+						if (isEmpty4) {
+							document.getElementById('tobr4').style.display = 'inline';
+							console.log('append br');
+							isEmpty4 = false;
+						}
+						if (!emailPattern.test($("#email-input").val())) {
+							emailIsOK = false;
+
+							$("#group_email").attr("class", "form-group errored");
+							$("#email-input-validation").attr("class", "note error");
+							$("#email-input-validation").text(
+								"Please enter a valid email"
+							);
+						} else {
+							emailIsOK = true;
+
+							$("#group_email").attr("class", "form-group successed");
+							$("#email-input-validation").attr("class", "note success");
+							$("#email-input-validation").text("Email is avaliable");
+
+						}
+					}
+				})
+			</script>
+
+			<!-- self introduction -->
+			<div class="form-group">
+				<div class="form-group-header">
+					<label for="example-textarea">Self Introduction</label>
+				</div>
+				<div class="form-group-body">
+					<textarea class="form-control" id="example-textarea"></textarea>
+				</div>
+			</div>
+
+			<div class="flash" id="flash">
+				Please fill every message and click "register" below
+			</div>
+
+			<br />
+			<script>
+
+				function check(form) {
+					if (usernameIsOK && passwordIsOK && cpasswordIsOK && phoneIsOK && emailIsOK) {
+						$("#flash").attr("class", "flash mt-3 flash-success");
+						$("#flash").text("OK!");
+						return true;
+						console.log(usernameIsOK + ' ' + passwordIsOK + '' + cpasswordIsOK + '' + phoneIsOK + '' + emailIsOK);
+					}
+					else {
+						$("#flash").attr("class", "flash mt-3 flash-error");
+						$("#flash").text("please fix errors and try again");
+						console.log(usernameIsOK + ' ' + passwordIsOK + '' + cpasswordIsOK + '' + phoneIsOK + '' + emailIsOK);
+						return false;
+					}
+
+				}
+			</script>
+			<div class="form-group" style="text-align: right;">
+				<button class="btn btn-outline mr-2" type="button" onclick="return check(this.form)">
+					<!-- <%= octicon "device-desktop" %> -->
+					<svg t="1626849636226" class="icon" viewBox="0 0 1024 1024" version="1.1"
+						xmlns="http://www.w3.org/2000/svg" p-id="2042" width="16" height="16">
+						<path
+							d="M927.630222 173.511111l-0.853333 5.12-148.423111 615.537778a34.133333 34.133333 0 0 1-44.088889 24.348444l-4.949333-2.161777-263.566223-138.808889v171.349333a34.133333 34.133333 0 0 1-28.615111 33.678222l-5.518222 0.455111a34.133333 34.133333 0 0 1-33.678222-28.558222l-0.455111-5.575111v-215.04a34.133333 34.133333 0 0 1 6.826666-20.48l3.640889-4.096 356.693334-343.665778-542.378667 242.289778 121.514667 62.350222a34.133333 34.133333 0 0 1 16.952888 40.846222l-2.161777 5.12a34.133333 34.133333 0 0 1-40.789334 16.952889l-5.12-2.161777-184.888889-94.776889a34.133333 34.133333 0 0 1-3.242666-58.88l4.892444-2.673778 750.250667-335.189333a34.133333 34.133333 0 0 1 47.957333 34.076444z m-100.352 126.520889l-329.386666 317.269333 224.369777 118.215111 105.016889-435.484444z"
+							fill="#1296db" p-id="2043"></path>
+					</svg>
+					&nbsp;<span>Register</span>
+				</button>
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>

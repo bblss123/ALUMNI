@@ -154,4 +154,29 @@ class StudentSheet(models.Model): # 存放管理员上传的同学表单
     def __str__(self):
         return str(self.upload)
 
+class Question(models.Model):
+
+    class Answer(models.IntegerChoices):
+        A = 1
+        B = 2
+        C = 3
+
+    text = models.CharField('问题描述', max_length = 200)
+    rightChoice = models.IntegerField('正确选项', default = 1, choices = Answer.choices)
+
+    class Meta:
+        verbose_name = '注册问题'
+        verbose_name_plural = '注册问题'
+    
+    def __str__(self):
+        return self.text
+
+class Choice(models.Model):
+    text = models.CharField('选项描述', max_length = 200)
+    question = models.ForeignKey(Question, on_delete = models.CASCADE)
+
+    def __str__(self):
+        return self.text
+
+
 

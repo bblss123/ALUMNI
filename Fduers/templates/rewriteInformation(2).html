@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>个人信息修改</title>
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <link href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css" rel="stylesheet" />
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+    window.onload = function () {
+      //注意
+      //这里需要得到后端给出的已经注册的信息
+      //
+      var id = "呜呜呜";
+      var work = "前端bug制造师";
+      var city = "上海";
+      document.getElementsByName("user_id")[0].setAttribute("placeholder", id);
+      document.getElementsByName("user_work")[0].setAttribute("placeholder", work);
+      document.getElementsByName("user_city")[0].setAttribute("placeholder", city);
+      var btw = document.getElementById("change");
+    }
+
+    function check() {
+      var pwd1 = document.getElementById("pwd1").value;
+      var pwd2 = document.getElementById("pwd2").value;
+      if (pwd1 != "" && pwd2 == "") {
+        alert("没有输入验证密码！");
+        return false;
+      }
+      if (pwd1 != pwd2) {
+        alert("两次输入的密码不匹配！");
+        return false;
+      }
+      alert("保存成功！");
+      return true;
+    }
+    function PreviewImage(imgFile) {
+      var pattern = /(\.*.jpg$)|(\.*.png$)|(\.*.jpeg$)|(\.*.gif$)|(\.*.bmp$)/;
+      if (!pattern.test(imgFile.value)) {
+        alert("系统仅支持jpg/jpeg/png/gif/bmp格式的照片！");
+        imgFile.focus()
+      } else {
+        var path;
+        if (document.all) {
+          imgFile.select();
+          path = document.selection.createRange().text;
+          document.getElementById("imgPreview").innerHTML = "";
+          document.getElementById("imgPreview").style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled='true',sizingMethod='scale',src=\"" + path + "\")"
+        } else {
+          path = URL.createObjectURL(imgFile.files[0]);
+          document.getElementById("imgPreview").innerHTML = "<img src='" + path + "'/>"
+        }
+      }
+    }
+  </script>
+  <style>
+    @media (min-width: 48em) {
+      html {
+        font-size: 18px;
+      }
+    }
+
+    body {
+      font-family: Georgia, '微软雅黑', Times, serif;
+    }
+
+    /*
+ * Footer
+ */
+
+    .blog-footer {
+      padding: 1rem 0;
+      color: #999;
+      text-align: center;
+      background-color: #f9f9f9;
+      border-top: 0.05rem solid #e5e5e5;
+    }
+
+    .blog-footer p:last-child {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+
+<div class="container">
+  <div class="row">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar-header">
+        <a class="navbar-brand" style="color: #2c6eb5;">校友会平台</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav active">
+          <li class="nav-link">
+            <a href="/index/">主站</a>
+          </li>
+          <li class="nav-link">
+            <a href="/tieLists/stars/">已关注的帖子</a>
+          </li>
+          <li class="nav-link">
+            <a href="/activities/">活动</a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">地域社区</a>
+            <!-- -------------------------------------------------------------------------------------------------------------- -->
+            <ul class="dropdown-menu">
+              <li><a href="/tieLists/province/{{user.prov_id}}">我的地区</a></li>
+              <li class="divider"></li>
+              {% for prov in province%}
+              <li><a href="/tieLists/province/{{prov.id}}">{{prov.name}}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">行业社区</a>
+            <ul class="dropdown-menu">
+              <li><a href="/tieLists/industry/{{user.industry_id}}">我的行业</a></li>
+              <li class="divider"></li>
+              {%for item in industry%}
+              <li><a href="/tieLists/industry/{{item.id}}">{{item.name}}</a></li>
+              {%endfor%}
+              <!-- <li class="divider"></li>
+								<li><a href="#">One more separated link</a></li> -->
+            </ul>
+          </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li class="nav-link">
+            <a href="/postTie/" style="background: #3380d3; color: white">发帖</a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{username}}<strong class="caret"></strong></a>
+            <ul class="dropdown-menu">
+              <li><a href="/changemessage/">个人信息设置</a></li>
+              <li><a href="/messageBoard/">我的留言板</a></li>
+              <!-- <li><a href="#">Something else here</a> -->
+          </li>
+          <li class="divider"></li>
+          <li><a href="/logout">Log out</a></li>
+        </ul>
+        </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div class="row" style="padding-top:6rem">
+    <div class="col-md-10 col-md-offset-1">
+      <h3>更新您的个人信息</h3>
+      <hr>
+    </div>
+  </div>
+
+
+
+
+  <div class="row" style="padding-top:3rem">
+    <div class="col-md-10 col-md-offset-1">
+      <form action="/changemessage/" method="POST" enctype="multipart/form-data">
+        <!-- <div class="row" style="padding-top:3rem"> -->
+        <!-- <div class="col-md-10 col-md-offset-1"> -->
+        <!-- <form name="changeicon" action="/changemessage/" method="POST"> -->
+        <div class="col-md-3">
+          <img src="/media/{{ user.photo }}" id="imgPreview" width="200" height="200">
+        </div>
+        <!-- <div class="col-md-7">
+                <input type="button" value="上传图像" name="photo" onclick="showPreview()">
+              </div> -->
+        <p>
+          <label>请选择一个文件：</label>
+          <input type="file" id="file" name="photo" value="读取图像" />
+          <br>
+          <input type="button" value="上传图片" onclick="readAsDataURL()" />
+          </br>
+        </p>
+        <script type="text/javascript">
+          var result = document.getElementById("result");
+          var file = document.getElementById("file");
+
+          //判断浏览器是否支持FileReader接口  
+          if (typeof FileReader == 'undefined') {
+            result.InnerHTML = "<p>你的浏览器不支持FileReader接口！</p>";
+            //使选择控件不可操作  
+            file.setAttribute("disabled", "disabled");
+          }
+
+          function readAsDataURL() {
+            //检验是否为图像文件  
+            var file = document.getElementById("file").files[0];
+            if (!/image\/\w+/.test(file.type)) {
+              alert("请上传正确格式的图片!");
+              return false;
+            }
+
+            var reader = new FileReader();
+            //将文件以Data URL形式读入页面  
+            reader.readAsDataURL(file);
+            reader.onload = function (e) {
+              document.getElementById("imgPreview").src = e.target.result;
+              console.log("emmm")
+            }
+          }
+        </script>
+
+        <br></br>
+        <br></br>
+        <br></br>
+        <!-- </form> -->
+        <!-- </div>
+        </div> -->
+        <!-- <div class="form-group row">
+                    <div class="col-md-3"><label>用户名</label></div>
+                    <div class="col-md-7">
+                        <input type="text" name="username" id="id" class="form-control">
+                    </div>
+                  </div> -->
+
+        <!-- <div class="form-group row">
+                    <div class="col-md-2"><label>密码</label></div>
+                    <div class="col-md-7">
+                        <input type="password" name="password" id="pwd1" class="form-control" placeholder="修改密码">
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                     <div class="col-md-2"><label>确认密码</label></div>
+                     <div class="col-md-7">
+                        <input type="password" name="user_password" id="pwd2" class="form-control" placeholder="请再次输入密码" onchange="check()">
+                    </div>
+                  </div> -->
+        <div class="form-group" id="group_password">
+          <div class="form-group-header">
+            <label for="password-text">密码</label>
+          </div>
+          <div class="form-group-body">
+            <input class="form-control" type="password" id="password-input" maxlength=20 name="password"
+              aria-describedby="password-input-validation" />
+          </div>
+          <p class="note success" id="password-input-validation"></p>
+          <p id="tobr1" style="display: none;"><br></p>
+        </div>
+
+        <!-- confirm password -->
+        <div class="form-group" id="group_cpassword">
+          <div class="form-group-header">
+            <label for="password-text">确认密码</label>
+          </div>
+          <div class="form-group-body">
+            <input class="form-control" type="password" id="Cpassword-input" maxlength=20 disabled="disabled"
+              aria-describedby="cpassword-input-validation" />
+          </div>
+          <p class="note success" id="cpassword-input-validation"></p>
+          <p id="tobr2" style="display: none;"><br></p>
+        </div>
+
+        <!-- password-check-script -->
+        <script>
+          //密码强度正则，最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符
+          var pPattern = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*?\,\./\\\';<>?:\"[\]{}|]).*$/;
+          //input是否为空
+          var isEmpty1 = true;
+          //password是否符合要求 
+          var passwordIsOK = false;
+          // 控制note的显示与隐藏
+          $("#password-input").bind("input propertychange", function (event) {
+            if ($("#password-input").val() === "") {
+              passwordIsOK = false;
+              // 如果密码不符合要求，确认密码栏应关闭，确认密码栏应清空并恢复原状
+              $("#Cpassword-input").attr("disabled", "disabled");
+              $("#group_cpassword").attr("class", "form-group");
+              $("#cpassword-input-validation").attr("class", "note success");
+              $("#cpassword-input-validation").text("");
+              $("#Cpassword-input").val("");
+              document.getElementById('tobr2').style.display = 'none';
+              console.log('delete br');
+              isEmpty2 = true;
+              // ------------------------------
+              $("#group_password").attr("class", "form-group");
+              $("#password-input-validation").attr("class", "note success");
+              $("#password-input-validation").text("");
+              // 从非空转到空时，将换行隐藏
+              if (!isEmpty1) {
+                document.getElementById('tobr1').style.display = 'none';
+                console.log('delete br');
+                isEmpty1 = true;
+              }
+            } else {
+              // 从空转到非空时，将换行显示
+              if (isEmpty1) {
+                document.getElementById('tobr1').style.display = 'inline';
+                console.log('append br');
+                isEmpty1 = false;
+              }
+              if (!pPattern.test($("#password-input").val())) {
+                passwordIsOK = false;
+                $("#Cpassword-input").attr("disabled", "disabled");
+                $("#Cpassword-input").val("");
+                $("#group_cpassword").attr("class", "form-group");
+                $("#cpassword-input-validation").attr("class", "note success");
+                $("#cpassword-input-validation").text("");
+                document.getElementById('tobr2').style.display = 'none';
+                console.log('delete br');
+                isEmpty2 = true;
+                // --------------------------------------------
+                $("#group_password").attr("class", "form-group errored");
+                $("#password-input-validation").attr("class", "note error");
+                $("#password-input-validation").text(
+                  "password at least 6 characters, including at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 special character"
+                );
+              } else {
+                passwordIsOK = true;
+                $("#Cpassword-input").removeAttr("disabled");
+                $("#Cpassword-input").val("");
+                $("#group_cpassword").attr("class", "form-group");
+                $("#cpassword-input-validation").attr("class", "note success");
+                $("#cpassword-input-validation").text("");
+                document.getElementById('tobr2').style.display = 'none';
+                console.log('delete br');
+                isEmpty2 = true;
+                // ----------------------------------------------
+                $("#group_password").attr("class", "form-group successed");
+                $("#password-input-validation").attr("class", "note success");
+                $("#password-input-validation").text("this password is avaliable");
+
+              }
+            }
+          })
+
+          var isEmpty2 = true;
+          //password是否符合要求 
+          var cpasswordIsOK = false;
+          $("#Cpassword-input").bind("input propertychange", function (event) {
+            if ($("#Cpassword-input").val() === "") {
+              cpasswordIsOK = false;
+              $("#group_cpassword").attr("class", "form-group");
+              $("#cpassword-input-validation").attr("class", "note success");
+              $("#cpassword-input-validation").text("");
+              // 从非空转到空时，将换行隐藏
+              if (!isEmpty2) {
+                document.getElementById('tobr2').style.display = 'none';
+                console.log('delete br');
+                isEmpty2 = true;
+              }
+            } else {
+              // 从空转到非空时，将换行显示
+              if (isEmpty2) {
+                document.getElementById('tobr2').style.display = 'inline';
+                console.log('append br');
+                isEmpty2 = false;
+              }
+              if ($("#password-input").val() !== $("#Cpassword-input").val()) {
+                cpasswordIsOK = false;
+                $("#group_cpassword").attr("class", "form-group errored");
+                $("#cpassword-input-validation").attr("class", "note error");
+                $("#cpassword-input-validation").text(
+                  "The password is inconsistent with the previous one"
+                );
+              } else {
+                cpasswordIsOK = true;
+                $("#group_cpassword").attr("class", "form-group successed");
+                $("#cpassword-input-validation").attr("class", "note success");
+                $("#cpassword-input-validation").text("password checked");
+
+              }
+            }
+          })
+        </script>
+
+        <div class="form-group row">
+          <div class="col-md-2"><label>行业</label></div>
+          <div class="col-md-7">
+            <select class="form-select" name="industry_id" id="industry">
+              {% for industry in industries %}
+              <option value="{{ industry.id }}">{{ industry.name }}</option>
+              {% endfor %}
+
+
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-2"><label>地域</label></div>
+          <div class="col-md-7">
+            <select class="form-select" name="city_id" id="city">
+              {% for prov in provinces %}
+              <option value="{{ prov.id }}">{{ prov.name }}</option>
+              {% endfor %}
+
+
+            </select>
+          </div>
+        </div>
+		
+		<div class="flash" id="flash">
+			Please fill every message and click "register" below
+		</div>
+		
+		<br />
+		<script>
+			function check(form) {
+				if (passwordIsOK && cpasswordIsOK) {
+					$("#flash").attr("class", "flash mt-3 flash-success");
+					$("#flash").text("OK!");
+					return true;
+					// console.log(usernameIsOK + ' ' + passwordIsOK + '' + cpasswordIsOK + '' + phoneIsOK + '' + emailIsOK);
+				} else {
+					$("#flash").attr("class", "flash mt-3 flash-error");
+					$("#flash").text("passwords don't match");
+					// console.log(usernameIsOK + ' ' + passwordIsOK + '' + cpasswordIsOK + '' + phoneIsOK + '' + emailIsOK);
+					return false;
+				}
+		
+			}
+		</script>
+
+        <div class="form-group row">
+          <div class="col-md-3">
+            <button type="submit" class="btn btn-primary" onclick="return check(this.form)">Submit</button>
+          </div>
+        </div>
+        {% csrf_token %}
+      </form>
+    </div>
+  </div>
+</div>
+
+<footer class="blog-footer">
+  <p>校友会平台
+    <a href="https://getbootstrap.com/">Bootstrap</a> by
+    <a href="#">软工小组</a>.
+  </p>
+  <p>
+    <a href="#">Back to top</a>
+  </p>
+</footer>
+
+
+</body>
+
+</html>

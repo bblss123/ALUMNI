@@ -1,100 +1,940 @@
-{% load static %}
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>校友会登录</title>
-<script>
-function check(){
- var id=document.getElementById("id").value;
- var pwd=document.getElementById("pwd").value
- if(id==""){
- alert("请输入用户名！");
- return false;
- }
- if(pwd==""){
- alert("请输入密码");
- return false;
- }
- return true;
-}
-</script>
-<style>
-    #container{
-        width: 360px;
-        height: 400px;
-        position: relative;
-        top: 120px;
-        bottom: 0;
-        left: 700px;
-        right: 50px;
-        background-color: whitesmoke;
-        border-radius: 5%;
-    }
-    .inputtext{
-        border-style: solid;
-        border-color:white;
-        width:250px;
-        height: 25px;
-        text-align: center;
-    }
-    a:link{text-decoration: none;color:rgb(77, 106, 200);font-size: large;}
-    a:hover{text-decoration: underline;}
-    a:active{color: red;}
-    button:active{background-color:black;color: white;}
-    body{
-        background-image: url('media/img/share.png') ;
-        background-size: cover;
-    }
-</style>
-</head>
-<body>
-    <div id="container">
-        <br>
-    <p align="center" style="font-size: larger;">登录校友会平台</p>
-<div  style="width:300px;"> 
-    <!--action处填写传入某文件处理的路径-->
-    <form name="input" action="/" method="POST">
-    <div style="font-size: large;position: relative; left:15%">用户名</div>
-    <div style="float:right">
-            <input type="text" name="user_id" id="id" class="inputtext"
-            placeholder="请输入用户名"
-            ><br>
-    </div>
-    <br><br>
-    <div style="font-size: large;float: left;position: relative; left:15%">密码</div>
-    <br>
-    <div style="float:right">
-            <input type="password" name="user_password"  id="pwd" class="inputtext"
-            placeholder="请输入密码"
-            ><br>
-            </div>
-    <br>
-    <div style="float:right">
-        <a href="../alumni/reset_password.html"  class="link"
-        >忘记密码?</a></div><br>
-    <div>
-        <br>
-    <button type="submit" onclick="return check()" 
-    style="border-radius:5%;background-color:rgb(77, 106, 200);cursor:pointer;width:250px;height:30px;position: relative; left:15%">
-        登录</button>
-    </div>
-        {% csrf_token %}
-</form>
-    </div>
-    <form action="register/" method="get" name="form2">
-    <button type="submit"
-    style="border-radius:5%;background-color:rgb(77, 106, 200);cursor:pointer;width:250px;height:30px;position: relative; left:12.5%; top: 10%">
-        注册</button>
+<html lang="en">
+	<head>
+        <title>登录</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta http-equiv="content-type" content="text/html;charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<link href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css" rel="stylesheet" />
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
 
-    {% csrf_token %}
-    </form>
-    <div style="float:right">
-        <a href="/admin"
-        class="link">管理员登录</a>
-</div>
-<br><br>
-<!-- <p style="position: relative; left:15%">点击【创建账号】按钮，进入注册界面</p> -->
-</div>
-</body>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				font-size: 13px;
+				font-family: "Microsoft YaHei";
+			}
+
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				background: #fff;
+			}
+
+			#container {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 999;
+			}
+
+			#output {
+				width: 100%;
+				height: 100%;
+			}
+
+			.prompt {
+				width: 60%;
+				height: 30px;
+				margin: 5px auto;
+				text-align: center;
+				line-height: 30px;
+				font-family: "Microsoft YaHei", Arial, sans-serif;
+				font-size: 13px;
+				color: #df0000;
+			}
+
+            #linked{
+                width: 10.7rem;
+                height: 11rem;
+                position: absolute;
+                top: 3%;
+                right: 0%;
+                {#border: black 1px solid;#}
+            }
+
+			#admin {
+				color: #000000;
+
+			}
+
+			#admin:hover {
+				color: white;
+				text-decoration: none;
+			}
+
+			#zhuce {
+				color: #000000;
+
+			}
+
+			#zhuce:hover {
+				color: white;
+				text-decoration: none;
+			}
+
+            #aboutus {
+				color: #000000;
+
+			}
+
+			#aboutus:hover {
+				color: white;
+				text-decoration: none;
+			}
+
+			.containerT {
+				width: 400px;
+				height: 300PX;
+				text-align: center;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin: -150px 0 0 -200px;
+				border-radius: 3px;
+			}
+
+
+
+			form {
+				padding: 20px 0;
+				position: relative;
+				z-index: 2;
+			}
+
+			form input {
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				appearance: none;
+				outline: 0;
+				border: 1px solid rgba(255, 255, 255, 0.4);
+				background-color: rgba(255, 255, 255, 0.2);
+				width: 200px;
+				border-radius: 3px;
+				padding: 8px 15px;
+				margin: 0 auto 10px auto;
+				display: block;
+				text-align: center;
+				font-size: 15px;
+				color: white;
+				-webkit-transition-duration: 0.25s;
+				transition-duration: 0.25s;
+				font-weight: 300;
+			}
+
+			form input:hover {
+				background-color: rgba(255, 255, 255, 0.4);
+			}
+
+			form input:focus {
+				background-color: rgba(255, 255, 255, 0.7);
+				width: 230px;
+				color: #333;
+			}
+		</style>
+		<script type="text/javascript" src="//repo.bfw.wiki/bfwrepo/js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript">
+			CAV = {
+				FRONT: 0,
+				BACK: 1,
+				DOUBLE: 2,
+				SVGNS: "http://www.w3.org/2000/svg"
+			};
+			CAV.Array = typeof Float32Array === "function" ? Float32Array : Array;
+			CAV.Utils = {
+				isNumber: function(a) {
+					return !isNaN(parseFloat(a)) && isFinite(a)
+				}
+			};
+			(function() {
+				for (var a = 0, b = ["ms", "moz", "webkit", "o"], c = 0; c < b.length && !window.requestAnimationFrame; ++c)
+					window.requestAnimationFrame = window[b[c] + "RequestAnimationFrame"], window.cancelAnimationFrame =
+					window[b[c] + "CancelAnimationFrame"] || window[b[c] + "CancelRequestAnimationFrame"];
+				if (!window.requestAnimationFrame) window.requestAnimationFrame = function(b) {
+					var c = (new Date).getTime(),
+						f = Math.max(0, 16 - (c - a)),
+						g = window.setTimeout(function() {
+							b(c + f)
+						}, f);
+					a = c + f;
+					return g
+				};
+				if (!window.cancelAnimationFrame) window.cancelAnimationFrame =
+					function(a) {
+						clearTimeout(a)
+					}
+			})();
+			Math.PIM2 = Math.PI * 2;
+			Math.PID2 = Math.PI / 2;
+			Math.randomInRange = function(a, b) {
+				return a + (b - a) * Math.random()
+			};
+			Math.clamp = function(a, b, c) {
+				a = Math.max(a, b);
+				return a = Math.min(a, c)
+			};
+			CAV.Vector3 = {
+				create: function(a, b, c) {
+					var d = new CAV.Array(3);
+					this.set(d, a, b, c);
+					return d
+				},
+				clone: function(a) {
+					var b = this.create();
+					this.copy(b, a);
+					return b
+				},
+				set: function(a, b, c, d) {
+					a[0] = b || 0;
+					a[1] = c || 0;
+					a[2] = d || 0;
+					return this
+				},
+				setX: function(a, b) {
+					a[0] = b || 0;
+					return this
+				},
+				setY: function(a, b) {
+					a[1] = b || 0;
+					return this
+				},
+				setZ: function(a, b) {
+					a[2] = b || 0;
+					return this
+				},
+				copy: function(a, b) {
+					a[0] = b[0];
+					a[1] = b[1];
+					a[2] = b[2];
+					return this
+				},
+				add: function(a, b) {
+					a[0] += b[0];
+					a[1] += b[1];
+					a[2] += b[2];
+					return this
+				},
+				addVectors: function(a, b, c) {
+					a[0] = b[0] +
+						c[0];
+					a[1] = b[1] + c[1];
+					a[2] = b[2] + c[2];
+					return this
+				},
+				addScalar: function(a, b) {
+					a[0] += b;
+					a[1] += b;
+					a[2] += b;
+					return this
+				},
+				subtract: function(a, b) {
+					a[0] -= b[0];
+					a[1] -= b[1];
+					a[2] -= b[2];
+					return this
+				},
+				subtractVectors: function(a, b, c) {
+					a[0] = b[0] - c[0];
+					a[1] = b[1] - c[1];
+					a[2] = b[2] - c[2];
+					return this
+				},
+				subtractScalar: function(a, b) {
+					a[0] -= b;
+					a[1] -= b;
+					a[2] -= b;
+					return this
+				},
+				multiply: function(a, b) {
+					a[0] *= b[0];
+					a[1] *= b[1];
+					a[2] *= b[2];
+					return this
+				},
+				multiplyVectors: function(a, b, c) {
+					a[0] = b[0] * c[0];
+					a[1] = b[1] * c[1];
+					a[2] = b[2] * c[2];
+					return this
+				},
+				multiplyScalar: function(a,
+					b) {
+					a[0] *= b;
+					a[1] *= b;
+					a[2] *= b;
+					return this
+				},
+				divide: function(a, b) {
+					a[0] /= b[0];
+					a[1] /= b[1];
+					a[2] /= b[2];
+					return this
+				},
+				divideVectors: function(a, b, c) {
+					a[0] = b[0] / c[0];
+					a[1] = b[1] / c[1];
+					a[2] = b[2] / c[2];
+					return this
+				},
+				divideScalar: function(a, b) {
+					b !== 0 ? (a[0] /= b, a[1] /= b, a[2] /= b) : (a[0] = 0, a[1] = 0, a[2] = 0);
+					return this
+				},
+				cross: function(a, b) {
+					var c = a[0],
+						d = a[1],
+						e = a[2];
+					a[0] = d * b[2] - e * b[1];
+					a[1] = e * b[0] - c * b[2];
+					a[2] = c * b[1] - d * b[0];
+					return this
+				},
+				crossVectors: function(a, b, c) {
+					a[0] = b[1] * c[2] - b[2] * c[1];
+					a[1] = b[2] * c[0] - b[0] * c[2];
+					a[2] = b[0] * c[1] - b[1] *
+						c[0];
+					return this
+				},
+				min: function(a, b) {
+					a[0] < b && (a[0] = b);
+					a[1] < b && (a[1] = b);
+					a[2] < b && (a[2] = b);
+					return this
+				},
+				max: function(a, b) {
+					a[0] > b && (a[0] = b);
+					a[1] > b && (a[1] = b);
+					a[2] > b && (a[2] = b);
+					return this
+				},
+				clamp: function(a, b, c) {
+					this.min(a, b);
+					this.max(a, c);
+					return this
+				},
+				limit: function(a, b, c) {
+					var d = this.length(a);
+					b !== null && d < b ? this.setLength(a, b) : c !== null && d > c && this.setLength(a, c);
+					return this
+				},
+				dot: function(a, b) {
+					return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
+				},
+				normalise: function(a) {
+					return this.divideScalar(a, this.length(a))
+				},
+				negate: function(a) {
+					return this.multiplyScalar(a,
+						-1)
+				},
+				distanceSquared: function(a, b) {
+					var c = a[0] - b[0],
+						d = a[1] - b[1],
+						e = a[2] - b[2];
+					return c * c + d * d + e * e
+				},
+				distance: function(a, b) {
+					return Math.sqrt(this.distanceSquared(a, b))
+				},
+				lengthSquared: function(a) {
+					return a[0] * a[0] + a[1] * a[1] + a[2] * a[2]
+				},
+				length: function(a) {
+					return Math.sqrt(this.lengthSquared(a))
+				},
+				setLength: function(a, b) {
+					var c = this.length(a);
+					c !== 0 && b !== c && this.multiplyScalar(a, b / c);
+					return this
+				}
+			};
+			CAV.Vector4 = {
+				create: function(a, b, c) {
+					var d = new CAV.Array(4);
+					this.set(d, a, b, c);
+					return d
+				},
+				set: function(a, b, c, d, e) {
+					a[0] = b || 0;
+					a[1] = c || 0;
+					a[2] = d || 0;
+					a[3] = e || 0;
+					return this
+				},
+				setX: function(a, b) {
+					a[0] = b || 0;
+					return this
+				},
+				setY: function(a, b) {
+					a[1] = b || 0;
+					return this
+				},
+				setZ: function(a, b) {
+					a[2] = b || 0;
+					return this
+				},
+				setW: function(a, b) {
+					a[3] = b || 0;
+					return this
+				},
+				add: function(a, b) {
+					a[0] += b[0];
+					a[1] += b[1];
+					a[2] += b[2];
+					a[3] += b[3];
+					return this
+				},
+				multiplyVectors: function(a, b, c) {
+					a[0] = b[0] * c[0];
+					a[1] = b[1] * c[1];
+					a[2] = b[2] * c[2];
+					a[3] = b[3] * c[3];
+					return this
+				},
+				multiplyScalar: function(a, b) {
+					a[0] *= b;
+					a[1] *= b;
+					a[2] *= b;
+					a[3] *= b;
+					return this
+				},
+				min: function(a, b) {
+					a[0] < b && (a[0] = b);
+					a[1] < b && (a[1] = b);
+					a[2] < b && (a[2] = b);
+					a[3] < b && (a[3] = b);
+					return this
+				},
+				max: function(a, b) {
+					a[0] > b && (a[0] = b);
+					a[1] > b && (a[1] = b);
+					a[2] > b && (a[2] = b);
+					a[3] > b && (a[3] = b);
+					return this
+				},
+				clamp: function(a, b, c) {
+					this.min(a, b);
+					this.max(a, c);
+					return this
+				}
+			};
+			CAV.Color = function(a, b) {
+				this.rgba = CAV.Vector4.create();
+				this.hex = a || "#000000";
+				this.opacity = CAV.Utils.isNumber(b) ? b : 1;
+				this.set(this.hex, this.opacity)
+			};
+			CAV.Color.prototype = {
+				set: function(a, b) {
+					var a = a.replace("#", ""),
+						c = a.length / 3;
+					this.rgba[0] = parseInt(a.substring(c * 0, c * 1), 16) / 255;
+					this.rgba[1] = parseInt(a.substring(c * 1, c * 2), 16) / 255;
+					this.rgba[2] = parseInt(a.substring(c * 2, c * 3), 16) / 255;
+					this.rgba[3] = CAV.Utils.isNumber(b) ? b : this.rgba[3];
+					return this
+				},
+				hexify: function(a) {
+					a = Math.ceil(a * 255).toString(16);
+					a.length === 1 && (a = "0" + a);
+					return a
+				},
+				format: function() {
+					var a = this.hexify(this.rgba[0]),
+						b = this.hexify(this.rgba[1]),
+						c = this.hexify(this.rgba[2]);
+					return this.hex = "#" +
+						a + b + c
+				}
+			};
+			CAV.Object = function() {
+				this.position = CAV.Vector3.create()
+			};
+			CAV.Object.prototype = {
+				setPosition: function(a, b, c) {
+					CAV.Vector3.set(this.position, a, b, c);
+					return this
+				}
+			};
+			CAV.Light = function(a, b) {
+				CAV.Object.call(this);
+				this.ambient = new CAV.Color(a || "#FFFFFF");
+				this.diffuse = new CAV.Color(b || "#FFFFFF");
+				this.ray = CAV.Vector3.create()
+			};
+			CAV.Light.prototype = Object.create(CAV.Object.prototype);
+			CAV.Vertex = function(a, b, c) {
+				this.position = CAV.Vector3.create(a, b, c)
+			};
+			CAV.Vertex.prototype = {
+				setPosition: function(a, b, c) {
+					CAV.Vector3.set(this.position, a, b, c);
+					return this
+				}
+			};
+			CAV.Triangle = function(a, b, c) {
+				this.a = a || new CAV.Vertex;
+				this.b = b || new CAV.Vertex;
+				this.c = c || new CAV.Vertex;
+				this.vertices = [this.a, this.b, this.c];
+				this.u = CAV.Vector3.create();
+				this.v = CAV.Vector3.create();
+				this.centroid = CAV.Vector3.create();
+				this.normal = CAV.Vector3.create();
+				this.color = new CAV.Color;
+				this.polygon = document.createElementNS(CAV.SVGNS, "polygon");
+				this.polygon.setAttributeNS(null, "stroke-linejoin", "round");
+				this.polygon.setAttributeNS(null, "stroke-miterlimit", "1");
+				this.polygon.setAttributeNS(null, "stroke-width",
+					"1");
+				this.computeCentroid();
+				this.computeNormal()
+			};
+			CAV.Triangle.prototype = {
+				computeCentroid: function() {
+					this.centroid[0] = this.a.position[0] + this.b.position[0] + this.c.position[0];
+					this.centroid[1] = this.a.position[1] + this.b.position[1] + this.c.position[1];
+					this.centroid[2] = this.a.position[2] + this.b.position[2] + this.c.position[2];
+					CAV.Vector3.divideScalar(this.centroid, 3);
+					return this
+				},
+				computeNormal: function() {
+					CAV.Vector3.subtractVectors(this.u, this.b.position, this.a.position);
+					CAV.Vector3.subtractVectors(this.v, this.c.position, this.a.position);
+					CAV.Vector3.crossVectors(this.normal,
+						this.u, this.v);
+					CAV.Vector3.normalise(this.normal);
+					return this
+				}
+			};
+			CAV.Geometry = function() {
+				this.vertices = [];
+				this.triangles = [];
+				this.dirty = false
+			};
+			CAV.Geometry.prototype = {
+				update: function() {
+					if (this.dirty) {
+						var a, b;
+						for (a = this.triangles.length - 1; a >= 0; a--) b = this.triangles[a], b.computeCentroid(), b
+							.computeNormal();
+						this.dirty = false
+					}
+					return this
+				}
+			};
+			CAV.Plane = function(a, b, c, d) {
+				CAV.Geometry.call(this);
+				this.width = a || 100;
+				this.height = b || 100;
+				this.segments = c || 4;
+				this.slices = d || 4;
+				this.segmentWidth = this.width / this.segments;
+				this.sliceHeight = this.height / this.slices;
+				var e, f, g, c = [];
+				e = this.width * -0.5;
+				f = this.height * 0.5;
+				for (a = 0; a <= this.segments; a++) {
+					c.push([]);
+					for (b = 0; b <= this.slices; b++) d = new CAV.Vertex(e + a * this.segmentWidth, f - b * this
+						.sliceHeight), c[a].push(d), this.vertices.push(d)
+				}
+				for (a = 0; a < this.segments; a++)
+					for (b = 0; b < this.slices; b++) d = c[a + 0][b + 0], e = c[a + 0][b +
+						1
+					], f = c[a + 1][b + 0], g = c[a + 1][b + 1], t0 = new CAV.Triangle(d, e, f), t1 = new CAV.Triangle(f,
+						e, g), this.triangles.push(t0, t1)
+			};
+			CAV.Plane.prototype = Object.create(CAV.Geometry.prototype);
+			CAV.Material = function(a, b) {
+				this.ambient = new CAV.Color(a || "#444444");
+				this.diffuse = new CAV.Color(b || "#FFFFFF");
+				this.slave = new CAV.Color
+			};
+			CAV.Mesh = function(a, b) {
+				CAV.Object.call(this);
+				this.geometry = a || new CAV.Geometry;
+				this.material = b || new CAV.Material;
+				this.side = CAV.FRONT;
+				this.visible = true
+			};
+			CAV.Mesh.prototype = Object.create(CAV.Object.prototype);
+			CAV.Mesh.prototype.update = function(a, b) {
+				var c, d, e, f, g;
+				this.geometry.update();
+				if (b)
+					for (c = this.geometry.triangles.length - 1; c >= 0; c--) {
+						d = this.geometry.triangles[c];
+						CAV.Vector4.set(d.color.rgba);
+						for (e = a.length - 1; e >= 0; e--) f = a[e], CAV.Vector3.subtractVectors(f.ray, f.position, d
+								.centroid), CAV.Vector3.normalise(f.ray), g = CAV.Vector3.dot(d.normal, f.ray), this.side ===
+							CAV.FRONT ? g = Math.max(g, 0) : this.side === CAV.BACK ? g = Math.abs(Math.min(g, 0)) : this
+							.side === CAV.DOUBLE && (g = Math.max(Math.abs(g), 0)), CAV.Vector4.multiplyVectors(this.material
+								.slave.rgba,
+								this.material.ambient.rgba, f.ambient.rgba), CAV.Vector4.add(d.color.rgba, this.material
+								.slave.rgba), CAV.Vector4.multiplyVectors(this.material.slave.rgba, this.material.diffuse
+								.rgba, f.diffuse.rgba), CAV.Vector4.multiplyScalar(this.material.slave.rgba, g), CAV.Vector4
+							.add(d.color.rgba, this.material.slave.rgba);
+						CAV.Vector4.clamp(d.color.rgba, 0, 1)
+					}
+				return this
+			};
+			CAV.Scene = function() {
+				this.meshes = [];
+				this.lights = []
+			};
+			CAV.Scene.prototype = {
+				add: function(a) {
+					a instanceof CAV.Mesh && !~this.meshes.indexOf(a) ? this.meshes.push(a) : a instanceof CAV.Light && !
+						~this.lights.indexOf(a) && this.lights.push(a);
+					return this
+				},
+				remove: function(a) {
+					a instanceof CAV.Mesh && ~this.meshes.indexOf(a) ? this.meshes.splice(this.meshes.indexOf(a), 1) :
+						a instanceof CAV.Light && ~this.lights.indexOf(a) && this.lights.splice(this.lights.indexOf(a),
+							1);
+					return this
+				}
+			};
+			CAV.Renderer = function() {
+				this.halfHeight = this.halfWidth = this.height = this.width = 0
+			};
+			CAV.Renderer.prototype = {
+				setSize: function(a, b) {
+					if (!(this.width === a && this.height === b)) return this.width = a, this.height = b, this
+						.halfWidth = this.width * 0.5, this.halfHeight = this.height * 0.5, this
+				},
+				clear: function() {
+					return this
+				},
+				render: function() {
+					return this
+				}
+			};
+			CAV.CanvasRenderer = function() {
+				CAV.Renderer.call(this);
+				this.element = document.createElement("canvas");
+				this.element.style.display = "block";
+				this.context = this.element.getContext("2d");
+				this.setSize(this.element.width, this.element.height)
+			};
+			CAV.CanvasRenderer.prototype = Object.create(CAV.Renderer.prototype);
+			CAV.CanvasRenderer.prototype.setSize = function(a, b) {
+				CAV.Renderer.prototype.setSize.call(this, a, b);
+				this.element.width = a;
+				this.element.height = b;
+				this.context.setTransform(1, 0, 0, -1, this.halfWidth, this.halfHeight);
+				return this
+			};
+			CAV.CanvasRenderer.prototype.clear = function() {
+				CAV.Renderer.prototype.clear.call(this);
+				this.context.clearRect(-this.halfWidth, -this.halfHeight, this.width, this.height);
+				return this
+			};
+			CAV.CanvasRenderer.prototype.render = function(a) {
+				CAV.Renderer.prototype.render.call(this, a);
+				var b, c, d, e, f;
+				this.clear();
+				this.context.lineJoin = "round";
+				this.context.lineWidth = 1;
+				for (b = a.meshes.length - 1; b >= 0; b--)
+					if (c = a.meshes[b], c.visible) {
+						c.update(a.lights, true);
+						for (d = c.geometry.triangles.length - 1; d >= 0; d--) e = c.geometry.triangles[d], f = e.color
+							.format(), this.context.beginPath(), this.context.moveTo(e.a.position[0], e.a.position[1]), this
+							.context.lineTo(e.b.position[0], e.b.position[1]), this.context.lineTo(e.c.position[0],
+								e.c.position[1]), this.context.closePath(), this.context.strokeStyle = f, this.context
+							.fillStyle = f, this.context.stroke(), this.context.fill()
+					} return this
+			};
+
+			function Victor(container, anitOut) {
+				if (!!document.createElement("canvas").getContext) {
+					var t = {
+						width: 1.5,
+						height: 1.5,
+						depth: 10,
+						segments: 12,
+						slices: 6,
+						xRange: 0.8,
+						yRange: 0.1,
+						zRange: 1,
+						ambient: "#525252",
+						diffuse: "#A5A5A5",
+						speed: 0.0002
+					};
+					var G = {
+						count: 2,
+						xyScalar: 1,
+						zOffset: 100,
+						ambient: "#1c8bff",
+						diffuse: "#1c8bff",
+						speed: 0.001,
+						gravity: 1200,
+						dampening: 0.95,
+						minLimit: 10,
+						maxLimit: null,
+						minDistance: 20,
+						maxDistance: 400,
+						autopilot: false,
+						draw: false,
+						bounds: CAV.Vector3.create(),
+						step: CAV.Vector3.create(Math.randomInRange(0.2, 1), Math.randomInRange(0.2, 1), Math.randomInRange(
+							0.2, 1))
+					};
+					var m = "canvas";
+					var E = "svg";
+					var x = {
+						renderer: m
+					};
+					var i, n = Date.now();
+					var L = CAV.Vector3.create();
+					var k = CAV.Vector3.create();
+					var z = document.getElementById(container || "container");
+					var w = document.getElementById(anitOut || "anitOut");
+					var D, I, h, q, y;
+					var g;
+					var r;
+
+					function C() {
+						F();
+						p();
+						s();
+						B();
+						v();
+						K(z.offsetWidth, z.offsetHeight);
+						o()
+					}
+
+					function F() {
+						g = new CAV.CanvasRenderer();
+						H(x.renderer)
+					}
+
+					function H(N) {
+						if (D) {
+							w.removeChild(D.element)
+						}
+						switch (N) {
+							case m:
+								D = g;
+								break
+						}
+						D.setSize(z.offsetWidth, z.offsetHeight);
+						w.appendChild(D.element)
+					}
+
+					function p() {
+						I = new CAV.Scene()
+					}
+
+					function s() {
+						I.remove(h);
+						D.clear();
+						q = new CAV.Plane(t.width * D.width, t.height * D.height, t.segments, t.slices);
+						y = new CAV.Material(t.ambient, t.diffuse);
+						h = new CAV.Mesh(q, y);
+						I.add(h);
+						var N, O;
+						for (N = q.vertices.length - 1; N >= 0; N--) {
+							O = q.vertices[N];
+							O.anchor = CAV.Vector3.clone(O.position);
+							O.step = CAV.Vector3.create(Math.randomInRange(0.2, 1), Math.randomInRange(0.2, 1), Math
+								.randomInRange(0.2, 1));
+							O.time = Math.randomInRange(0, Math.PIM2)
+						}
+					}
+
+					function B() {
+						var O, N;
+						for (O = I.lights.length - 1; O >= 0; O--) {
+							N = I.lights[O];
+							I.remove(N)
+						}
+						D.clear();
+						for (O = 0; O < G.count; O++) {
+							N = new CAV.Light(G.ambient, G.diffuse);
+							N.ambientHex = N.ambient.format();
+							N.diffuseHex = N.diffuse.format();
+							I.add(N);
+							N.mass = Math.randomInRange(0.5, 1);
+							N.velocity = CAV.Vector3.create();
+							N.acceleration = CAV.Vector3.create();
+							N.force = CAV.Vector3.create()
+						}
+					}
+
+					function K(O, N) {
+						D.setSize(O, N);
+						CAV.Vector3.set(L, D.halfWidth, D.halfHeight);
+						s()
+					}
+
+					function o() {
+						i = Date.now() - n;
+						u();
+						M();
+						requestAnimationFrame(o)
+					}
+
+					function u() {
+						var Q, P, O, R, T, V, U, S = t.depth / 2;
+						CAV.Vector3.copy(G.bounds, L);
+						CAV.Vector3.multiplyScalar(G.bounds, G.xyScalar);
+						CAV.Vector3.setZ(k, G.zOffset);
+						for (R = I.lights.length - 1; R >= 0; R--) {
+							T = I.lights[R];
+							CAV.Vector3.setZ(T.position, G.zOffset);
+							var N = Math.clamp(CAV.Vector3.distanceSquared(T.position, k), G.minDistance, G.maxDistance);
+							var W = G.gravity * T.mass / N;
+							CAV.Vector3.subtractVectors(T.force, k, T.position);
+							CAV.Vector3.normalise(T.force);
+							CAV.Vector3.multiplyScalar(T.force, W);
+							CAV.Vector3.set(T.acceleration);
+							CAV.Vector3.add(T.acceleration, T.force);
+							CAV.Vector3.add(T.velocity, T.acceleration);
+							CAV.Vector3.multiplyScalar(T.velocity, G.dampening);
+							CAV.Vector3.limit(T.velocity, G.minLimit, G.maxLimit);
+							CAV.Vector3.add(T.position, T.velocity)
+						}
+						for (V = q.vertices.length - 1; V >= 0; V--) {
+							U = q.vertices[V];
+							Q = Math.sin(U.time + U.step[0] * i * t.speed);
+							P = Math.cos(U.time + U.step[1] * i * t.speed);
+							O = Math.sin(U.time + U.step[2] * i * t.speed);
+							CAV.Vector3.set(U.position, t.xRange * q.segmentWidth * Q, t.yRange * q.sliceHeight * P, t.zRange *
+								S * O - S);
+							CAV.Vector3.add(U.position, U.anchor)
+						}
+						q.dirty = true
+					}
+
+					function M() {
+						D.render(I)
+					}
+
+					function J(O) {
+						var Q, N, S = O;
+						var P = function(T) {
+							for (Q = 0, l = I.lights.length; Q < l; Q++) {
+								N = I.lights[Q];
+								N.ambient.set(T);
+								N.ambientHex = N.ambient.format()
+							}
+						};
+						var R = function(T) {
+							for (Q = 0, l = I.lights.length; Q < l; Q++) {
+								N = I.lights[Q];
+								N.diffuse.set(T);
+								N.diffuseHex = N.diffuse.format()
+							}
+						};
+						return {
+							set: function() {
+								P(S[0]);
+								R(S[1])
+							}
+						}
+					}
+
+					function v() {
+						window.addEventListener("resize", j)
+					}
+
+					function A(N) {
+						CAV.Vector3.set(k, N.x, D.height - N.y);
+						CAV.Vector3.subtract(k, L)
+					}
+
+					function j(N) {
+						K(z.offsetWidth, z.offsetHeight);
+						M()
+					}
+					C();
+				}
+				return J;
+			}
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="output">
+                <div id="linked">
+
+
+{#                管理员登录#}
+				<a href="/admin" id="admin">
+					<svg t="1627064555573" class="icon" viewBox="0 0 1024 1024" version="1.1"
+						xmlns="http://www.w3.org/2000/svg" p-id="4124" width="16" height="16">
+						<path
+							d="M956.96497373 783.22135977c-3.28732207 17.50931455-14.60263008 28.85922598-28.7208123 28.85922598h-2.35303067c-27.68271065 0.06920684-50.10570703 22.49220234-50.17491299 50.17491386 0.3806376 6.57464414 1.90318623 13.04547715 4.42923311 19.10107002 6.74766035 15.70993857 1.59175547 33.94592402-12.35340967 43.80789024l-1.38413496 0.9342914-58.23750322 32.04273779a37.37165977 37.37165977 0 0 1-15.9521625 3.66795967c-10.93467041 0-21.73092803-4.60225107-28.58239863-12.24960029-7.50893555-8.13179619-27.37128076-24.94904326-41.35104932-24.94904238-13.66833867 0-33.87671719 16.81724707-40.93580919 24.49919883a39.34405283 39.34405283 0 0 1-43.1850287 8.96227733l-57.58003828-32.00813437c-15.15628388-10.51943028-20.45060244-29.41288066-13.56452842-44.77678506 1.21111875-2.83747763 4.39463057-11.83435927 4.39463056-18.96265635 0-27.64810722-22.5960126-50.17491387-50.2441207-50.17491386h-1.97239306c-14.46421641 0-25.71031758-11.38451484-29.06684649-28.92843281-0.51905039-2.66446055-4.94828438-26.99064316-4.94828437-46.5069542 0-19.58551787 4.42923398-43.98090732 4.94828437-46.57616104 3.35652891-17.50931455 14.60263008-28.92843281 28.7208123-28.92843281h2.35303067c27.68271065 0 50.17491387-22.38839209 50.24412071-50.07110362a56.40352383 56.40352383 0 0 0-4.46383741-19.17027685 36.26435127 36.26435127 0 0 1 12.4226165-43.84249365l1.38413584-0.83048116 59.69084502-32.80401211 1.14191192-0.44984443a39.69008701 39.69008701 0 0 1 42.80439111 8.92767393c7.26671162 7.6127458 26.81762607 23.49570059 40.34755195 23.49570146 13.32230449 0 32.76940869-15.53692148 40.03612031-23.11506386 11.31530801-11.17689434 28.20176192-14.53342325 42.90820137-8.54703721l58.61814082 32.42337539c15.22549073 10.51943028 20.5544127 29.4820875 13.63373526 44.8459919a59.06798438 59.06798438 0 0 0-4.32542373 18.99725976c0.06920684 27.64810722 22.49220234 50.0365002 50.17491299 50.07110362h2.00699648c14.42961299 0 25.71031758 11.38451484 29.06684649 28.96303623 0.48444785 2.62985713 4.94828438 26.95603974 4.94828524 46.57616102 0 20.58901612-4.94828438 46.33393711-4.87907841 46.54155763z m-43.70407998-77.30396983a95.74757666 95.74757666 0 0 1-83.29035586-94.88249209c0.17301709-9.89656875 1.90318623-19.65472471 5.12130146-28.99763965l-41.48946299-23.04585615a170.87153291 170.87153291 0 0 1-17.12867695 13.84135488c-18.1321752 12.73404727-35.43387011 19.17027685-51.6974625 19.17027774-16.50581631 0-34.01513086-6.43623047-52.21651376-19.51631103a149.83267237 149.83267237 0 0 1-17.16328038-14.22199336l-43.39265009 23.84173476c2.4222375 7.19750479 5.15590488 17.82074531 5.15590488 28.96303623a95.85138604 95.85138604 0 0 1-83.35956269 94.95169893 226.82521231 226.82521231 0 0 0-2.87208106 30.65860195c0.27682734 10.24260292 1.21111875 20.45060244 2.87208106 30.58939512a95.71297324 95.71297324 0 0 1 83.35956269 94.95169892c0 11.07308408-2.83747763 21.76553144-5.19050831 28.99763965l40.13993145 22.42299551c5.43273223-5.1905083 11.14229092-10.03498242 17.16328037-14.49881982 18.40900253-13.42611474 36.29895469-20.34679219 52.97778809-20.34679219 16.92105732 0 34.94942227 7.05909112 53.53144189 20.79663662 6.05559287 4.53304424 11.83435927 9.48132862 17.26709151 14.77564628l42.00851338-23.1496664a95.02090489 95.02090489 0 0 1-5.08669805-28.96303623 95.67836982 95.67836982 0 0 1 83.29035586-94.95169893c1.17651533-7.92417568 2.87208106-20.72742979 2.87208193-30.69320537 0-10.00037901-1.69556573-22.73442627-2.87208193-30.69320537z m-190.73387724 118.9664499a88.75769151 88.75769151 0 0 1-88.61927872-88.58467529 88.65388125 88.65388125 0 0 1 177.23855655 0 88.75769151 88.75769151 0 0 1-88.61927783 88.58467529z m0-129.76270752c-23.04585703 0-42.00851338 18.20138203-42.97740909 41.21263565a42.9774082 42.9774082 0 0 0 85.92021387 0 43.01201162 43.01201162 0 0 0-42.94280478-41.21263565z m-128.58619219-225.61409355l-14.42961299 11.21149776c-29.37827724 26.12555859-85.43576602 34.84561201-122.4959959 37.71769394l-4.74066387-0.10381026a344.64975029 344.64975029 0 0 0-31.21225664 1.48794522h-0.44984443l0.06920683 0.06920684c-167.65341768 15.81374883-299.28470801 156.30350625-299.284708 326.93281611v50.14030957h367.38417656a298.76565674 298.76565674 0 0 0 35.81450771 58.61814082H91.77644902A29.4820875 29.4820875 0 0 1 62.15594785 926.30637178v-79.4839834c0-159.10638047 96.47424756-300.18439599 245.85707637-359.42539746l16.92105732-6.6784544-14.36040615-11.21149775c-56.12669648-43.77328682-88.23864112-109.06988115-88.23864112-179.31475986 0-125.74871455 103.11809766-228.03633106 229.87031046-228.03633106 126.78681622 0 229.90491386 102.28761651 229.9741207 228.03633106 0 70.24487871-32.2503583 135.54147305-88.23864111 179.31475986zM452.23994815 120.80869209c-94.08661347 0-170.62930898 76.02364511-170.62930899 169.38358682 0 93.42914941 76.5426955 169.45279365 170.62930899 169.45279453 94.1212169 0 170.6639124-75.9890417 170.6639124-169.45279453 0-93.42914941-76.5426955-169.38358682-170.6639124-169.38358682z"
+							p-id="4125" fill="#13227a"></path>
+					</svg>
+					Admin Login
+{# 注册界面#}
+				</a>
+                    <br>
+				<a href="/submit" id="zhuce">
+					<svg t="1627103519592" class="icon" viewBox="0 0 1024 1024" version="1.1"
+						xmlns="http://www.w3.org/2000/svg" p-id="2045" width="16" height="16">
+						<path
+							d="M315.274583 426.81391a241 241 0 1 0 340.81952-340.831417 241 241 0 1 0-340.81952 340.831417Z"
+							fill="#13227a" p-id="2046"></path>
+						<path
+							d="M787.7 622.7c-106.5 0-193.2 86.7-193.2 193.2 0 106.5 86.7 193.2 193.2 193.2 106.5 0 193.2-86.7 193.2-193.2-0.1-106.6-86.7-193.2-193.2-193.2zM850 845.3h-32v32c0 18.1-11.5 33-29.7 33-18.1 0-29.7-14.8-29.7-33v-32h-32c-18.1 0-33-11.5-33-29.7s14.8-29.7 33-29.7h32v-32c0-18.1 11.5-33 29.7-33 18.1 0 29.7 14.8 29.7 33v32h32c18.1 0 33 11.5 33 29.7s-14.8 29.7-33 29.7z"
+							fill="#13227a" p-id="2047"></path>
+						<path
+							d="M615.6 995.4c-16.4-15.7-30.6-33.6-42.2-53.2h0.1c-21.9-37-34.4-80.1-34.4-126.2 0-114 77.1-210.4 181.9-239.7 7-2.2 14.8-4.1 24.4-5.7-52.6-28.2-112.1-43.2-174.1-43.2H400c-96.1 0-186.2 36-253.8 101.3-68.4 66.1-106 155-106 250.5 0 65.7 53.5 119.2 119.2 119.2h459.3c-0.7-0.6-1.4-1.3-2-2-0.4-0.2-0.7-0.6-1.1-1z"
+							fill="#13227a" p-id="2048"></path>
+					</svg>
+					Register
+{# 关于#}
+				</a>
+                    <br>
+                <a href="/about" id="aboutus">
+					<svg t="1627126501730" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2016" width="16" height="16"><path d="M511.98464 407.2704a20.9408 20.9408 0 0 1 20.9408 20.94592v293.23776a20.9408 20.9408 0 0 1-41.88672 0V428.21632a20.9408 20.9408 0 0 1 20.9408-20.9408z m0-146.61632a20.9408 20.9408 0 0 1 20.9408 20.9408V281.6a20.9408 20.9408 0 0 1-41.88672 0 20.9408 20.9408 0 0 1 20.9408-20.9408z m0 712.14592C257.50016 972.8 51.2 766.49472 51.2 512s206.30016-460.8 460.78464-460.8h439.83872c21.72928 0 29.0816 29.0048 9.97888 39.36256-86.1952 46.71488-101.41184 117.8112-80.2816 146.1248 58.90048 78.9504 91.24352 174.70976 91.24352 275.31264 0 254.49472-206.29504 460.8-460.77952 460.8z m0-879.70816c-231.35232 0-418.8928 187.55072-418.8928 418.90816s187.5456 418.90816 418.8928 418.90816c231.3472 0 418.8928-187.55072 418.8928-418.90816 0-91.4944-29.38368-178.48832-82.93376-250.26048-29.10208-38.99904-21.10464-111.1808 39.12704-168.6528h-375.0912z" p-id="2017" fill="#13227a"></path></svg>
+					About us
+
+				</a>
+                </div>
+				<div class="containerT">
+					<form name="input" action="/" method="post" id="entry_form">
+						<input type="text" placeholder="username" id="entry_name" name="user_id">
+						<input type="password" placeholder="password" id="entry_password" name="user_password">
+						<br />
+						<button class="btn btn-outline mr-2" type="submit" onclick="return check()">
+							<!-- <%= octicon "device-desktop" %> -->
+							<svg t="1627064051960" class="icon" viewBox="0 0 1024 1024" version="1.1"
+								xmlns="http://www.w3.org/2000/svg" p-id="3140" width="16" height="16">
+								<path
+									d="M521.7 82c-152.5-0.4-286.7 78.5-363.4 197.7-3.4 5.3 0.4 12.3 6.7 12.3h70.3c4.8 0 9.3-2.1 12.3-5.8 7-8.5 14.5-16.7 22.4-24.5 32.6-32.5 70.5-58.1 112.7-75.9 43.6-18.4 90-27.8 137.9-27.8 47.9 0 94.3 9.3 137.9 27.8 42.2 17.8 80.1 43.4 112.7 75.9 32.6 32.5 58.1 70.4 76 112.5C865.7 417.8 875 464.1 875 512c0 47.9-9.4 94.2-27.8 137.8-17.8 42.1-43.4 80-76 112.5s-70.5 58.1-112.7 75.9c-43.6 18.4-90 27.8-137.9 27.8-47.9 0-94.3-9.4-137.9-27.8-42.2-17.8-80.1-43.4-112.7-75.9-7.9-7.9-15.3-16.1-22.4-24.5-3-3.7-7.6-5.8-12.3-5.8H165c-6.3 0-10.2 7-6.7 12.3C234.9 863.2 368.5 942 520.6 942c236.2 0 428-190.1 430.4-425.6C953.4 277.1 761.3 82.6 521.7 82zM395.025 624v-76h-314c-4.4 0-8-3.6-8-8v-56c0-4.4 3.6-8 8-8h314v-76c0-6.7 7.8-10.5 13-6.3l141.9 112c4.1 3.2 4.1 9.4 0 12.6l-141.9 112c-5.2 4.1-13 0.4-13-6.3z"
+									p-id="3141" fill="#13227a"></path>
+							</svg> <span>Login</span>
+						</button>
+
+
+
+						<div id="prompt" class="prompt"></div>
+                        {% csrf_token %}
+					</form>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function() {
+				Victor("container", "output"); //登陆背景函数
+				$("#entry_name").focus();
+				$(document).keydown(function(event) {
+					if (event.keyCode == 13) {
+						$("#entry_btn").click();
+					}
+				});
+			});
+		</script>
+	</body>
 </html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>发帖</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+	@media (min-width: 48em) {
+		html {
+			font-size: 18px;
+		}
+	}
+
+	body {
+		font-family: Georgia, '微软雅黑', Times, serif;
+	}
+
+	/*
+ * Footer
+ */
+
+	.blog-footer {
+		padding: 1rem 0;
+		color: #999;
+		text-align: center;
+		background-color: #f9f9f9;
+		border-top: 0.05rem solid #e5e5e5;
+	}
+
+	.blog-footer p:last-child {
+		margin-bottom: 0;
+	}
+</style>
+<script>
+
+	function drop1(id) {
+		var c = document.getElementById(id);
+		c.style.display = "block";
+		var p = document.getElementById("1_0");
+		p.style.display = "none";
+
+	}
+
+	function dropsuba(text) {
+		var p = document.getElementById("tag_place");
+		p.innerText = text;
+		var q = document.getElementById("tagProv");
+		// console.log(q);
+		q.value = text;
+	}
+
+	function dropsubb(text) {
+		var p = document.getElementById("tag_job");
+		p.innerText = text;
+		var q = document.getElementById("tagJob");
+		q.value = text;
+	}
+
+	var act_isclicked = false;
+	function tag_activity() {
+		if (act_isclicked == false) {
+			act_isclicked = true;
+			var p = document.getElementById("tag_activity");
+			p.innerText = "活动帖";
+			var h = document.getElementById("activity");
+			h.style.display = "block";
+			var q = document.getElementById("isActivity");
+			q.value = "True"
+		}
+		else if (act_isclicked == true) {
+			act_isclicked = false;
+			var p = document.getElementById("tag_activity");
+			p.innerText = "";
+			var h = document.getElementById("activity");
+			h.style.display = "none";
+			document.getElementById("acttag").checked = "";
+			var q = document.getElementById("isActivity");
+			q.value = "False"
+		}
+
+	}
+
+</script>
+
+<body>
+
+	<div class="container">
+		<div class="row">
+			<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+				<div class="navbar-header">
+				  <a class="navbar-brand" style="color: #2c6eb5;">校友会平台</a>
+				</div>
+		
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				  <ul class="nav navbar-nav active">
+					<li class="nav-link">
+					  <a href="/index/">主站</a>
+					</li>
+					<li class="nav-link">
+					  <a href="/tieLists/stars/">已关注的帖子</a>
+					</li>
+					<li class="nav-link">
+					  <a href="/activities/">活动</a>
+					</li>
+					<li class="dropdown">
+					  <a href="#" class="dropdown-toggle" data-toggle="dropdown">地域社区</a>
+					  <!-- -------------------------------------------------------------------------------------------------------------- -->
+					  <ul class="dropdown-menu">
+						<li><a href="/tieLists/province/{{user.prov_id}}">我的地区</a></li>
+						<li class="divider"></li>
+						{% for prov in province%}
+						<li><a href="/tieLists/province/{{prov.id}}">{{prov.name}}</a></li>
+						{% endfor %}
+					  </ul>
+					</li>
+		
+					<li class="dropdown">
+					  <a href="#" class="dropdown-toggle" data-toggle="dropdown">行业社区</a>
+					  <ul class="dropdown-menu">
+						<li><a href="/tieLists/industry/{{user.industry_id}}">我的行业</a></li>
+						<li class="divider"></li>
+						{%for item in industry%}
+						<li><a href="/tieLists/industry/{{item.id}}">{{item.name}}</a></li>
+						{%endfor%}
+						<!-- <li class="divider"></li>
+										<li><a href="#">One more separated link</a></li> -->
+					  </ul>
+					</li>
+				  </ul>
+		
+				  <ul class="nav navbar-nav navbar-right">
+					<li class="nav-link">
+					  <a href="/postTie/" style="background: #3380d3; color: white">发帖</a>
+					</li>
+					<li class="dropdown">
+					  <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{username}}<strong class="caret"></strong></a>
+					  <ul class="dropdown-menu">
+						<li><a href="/changemessage/">个人信息设置</a></li>
+						<li><a href="/messageBoard/">我的留言板</a></li>
+						<!-- <li><a href="#">Something else here</a> -->
+					</li>
+					<li class="divider"></li>
+					<li><a href="/logout">Log out</a></li>
+				  </ul>
+				  </li>
+				  </ul>
+				</div>
+			  </nav>
+		</div>
+
+		<!--    <div class="row" style="padding-top: 6rem">-->
+		<div class="container-fluid example-container" data-category="forms" style="padding-top:6rem">
+			<h1>发布你的帖子</h1>
+			<hr>
+			<div class="mt-3 mb-5">
+				<form action="/postTie/" method="POST">
+					<fieldset class="form-group">
+						<label class="title">标题</label>
+						<input type="text" class="form-control" id="title" name="title">
+						<!-- <input id="tagCity" name="tagCity"> -->
+						<input id="tagProv" style="display: none;" name="tagProv">
+						<input id="tagJob" style="display: none;" name="tagJob">
+						<input id="isActivity" style="display: none;" name="isActivity">
+					</fieldset>
+
+					<fieldset class="form-group">
+						<label class="title">
+							标签
+							<span id="tag_place" class="badge bg-secondary"></span>
+							<span id="tag_job" class="badge bg-secondary"></span>
+							<span id="tag_activity" class="badge bg-secondary"></span>
+						</label>
+						
+
+						<div class="form-check" style="padding-top: 0.5rem">
+							<input class="form-check-input" type="radio" name="acttag" id="acttag"
+								onclick="tag_activity()">
+							<label class="form-check-label" for="acttag">活动贴</label>
+						</div>
+
+						<div id="activity" class="form-check" style="padding-top: 0.5rem; display: none">
+							<div>
+								<label>开始时间</label>
+								<input type="datetime-local" class="form-control" id="starttime" name="starttime">
+							</div>
+							<div>
+								<label>结束时间</label>
+								<input type="datetime-local" class="form-control" id="endtime" name="endtime">
+							</div>
+							<div>
+								<label>具体地点</label>
+								<input type="text" class="form-control" id="actplace" name="actplace">
+							</div>
+							<div>
+								<label>预算</label>
+								<input type="text" class="form-control" id="cost" name="cost">
+							</div>
+						</div>
+
+
+						<div id="1_0" class="dropdown" style="display: block; padding-top: 0.5rem;">
+							<label>地域：</label>
+							<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								地域
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+								{% for item in province %}
+								<li><a onclick="dropsuba('{{item.name}}')"> {{item.name}} </a></li>
+								<!-- <li><a onclick="drop1('1_2')">北京</a></li>
+								<li><a onclick="drop1('1_3')">广州</a></li> -->
+								{% endfor %}
+							</ul>
+						</div>
+
+						<div id="2_0" class="dropdown" style="padding-top: 0.5rem;">
+							<label>行业：</label>
+							<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								行业
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+								{%for item in industry%}
+								<li><a onclick="dropsubb('{{item.name}}')">{{ item.name }}</a></li>
+								{%endfor%}
+							</ul>
+						</div>
+
+					</fieldset>
+
+					<fieldset class="form-group">
+						<label class="content">正文</label>
+						<textarea type="text" class="form-control" id="content" name="content"
+							style="height: 20rem"></textarea>
+					</fieldset>
+					<button type="submit" class="btn btn-primary">Submit</button>
+					{% csrf_token %}
+				</form>
+			</div>
+
+		</div>
+	</div>
+
+	<footer class="blog-footer">
+		<p>校友会平台
+			<a href="https://getbootstrap.com/">Bootstrap</a> by
+			<a href="https://github.com/bblss123/alumni">软工小组</a>.
+		</p>
+		<p>
+			<a href="#">Back to top</a>
+		</p>
+	</footer>
+</body>
+
+</html>

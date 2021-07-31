@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <title>身份验证</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta http-equiv="content-type" content="text/html;charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<link href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css" rel="stylesheet" />
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				font-size: 13px;
+				font-family: "Microsoft YaHei";
+			}
+
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				background: #fff;
+			}
+
+			#container {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 999;
+			}
+
+			#output {
+				width: 100%;
+				height: 100%;
+			}
+
+			.prompt {
+				width: 60%;
+				height: 30px;
+				margin: 5px auto;
+				text-align: center;
+				line-height: 30px;
+				font-family: "Microsoft YaHei", Arial, sans-serif;
+				font-size: 13px;
+				color: #df0000;
+			}
+
+			.containerT {
+				width: 30%;
+				height: 70%;
+				padding-left: 5%;
+				top: 10%;
+				left: 35%;
+				position: absolute;
+				border-radius: 10px;
+				/* border: #000000 2px solid; */
+				background-color: rgba(255, 255, 255, 0.2);
+			}
+
+
+		</style>
+		<script type="text/javascript" src="//repo.bfw.wiki/bfwrepo/js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript">
+			CAV = {
+				FRONT: 0,
+				BACK: 1,
+				DOUBLE: 2,
+				SVGNS: "http://www.w3.org/2000/svg"
+			};
+			CAV.Array = typeof Float32Array === "function" ? Float32Array : Array;
+			CAV.Utils = {
+				isNumber: function(a) {
+					return !isNaN(parseFloat(a)) && isFinite(a)
+				}
+			};
+			(function() {
+				for (var a = 0, b = ["ms", "moz", "webkit", "o"], c = 0; c < b.length && !window.requestAnimationFrame; ++c)
+					window.requestAnimationFrame = window[b[c] + "RequestAnimationFrame"], window.cancelAnimationFrame =
+					window[b[c] + "CancelAnimationFrame"] || window[b[c] + "CancelRequestAnimationFrame"];
+				if (!window.requestAnimationFrame) window.requestAnimationFrame = function(b) {
+					var c = (new Date).getTime(),
+						f = Math.max(0, 16 - (c - a)),
+						g = window.setTimeout(function() {
+							b(c + f)
+						}, f);
+					a = c + f;
+					return g
+				};
+				if (!window.cancelAnimationFrame) window.cancelAnimationFrame =
+					function(a) {
+						clearTimeout(a)
+					}
+			})();
+			Math.PIM2 = Math.PI * 2;
+			Math.PID2 = Math.PI / 2;
+			Math.randomInRange = function(a, b) {
+				return a + (b - a) * Math.random()
+			};
+			Math.clamp = function(a, b, c) {
+				a = Math.max(a, b);
+				return a = Math.min(a, c)
+			};
+			CAV.Vector3 = {
+				create: function(a, b, c) {
+					var d = new CAV.Array(3);
+					this.set(d, a, b, c);
+					return d
+				},
+				clone: function(a) {
+					var b = this.create();
+					this.copy(b, a);
+					return b
+				},
+				set: function(a, b, c, d) {
+					a[0] = b || 0;
+					a[1] = c || 0;
+					a[2] = d || 0;
+					return this
+				},
+				setX: function(a, b) {
+					a[0] = b || 0;
+					return this
+				},
+				setY: function(a, b) {
+					a[1] = b || 0;
+					return this
+				},
+				setZ: function(a, b) {
+					a[2] = b || 0;
+					return this
+				},
+				copy: function(a, b) {
+					a[0] = b[0];
+					a[1] = b[1];
+					a[2] = b[2];
+					return this
+				},
+				add: function(a, b) {
+					a[0] += b[0];
+					a[1] += b[1];
+					a[2] += b[2];
+					return this
+				},
+				addVectors: function(a, b, c) {
+					a[0] = b[0] +
+						c[0];
+					a[1] = b[1] + c[1];
+					a[2] = b[2] + c[2];
+					return this
+				},
+				addScalar: function(a, b) {
+					a[0] += b;
+					a[1] += b;
+					a[2] += b;
+					return this
+				},
+				subtract: function(a, b) {
+					a[0] -= b[0];
+					a[1] -= b[1];
+					a[2] -= b[2];
+					return this
+				},
+				subtractVectors: function(a, b, c) {
+					a[0] = b[0] - c[0];
+					a[1] = b[1] - c[1];
+					a[2] = b[2] - c[2];
+					return this
+				},
+				subtractScalar: function(a, b) {
+					a[0] -= b;
+					a[1] -= b;
+					a[2] -= b;
+					return this
+				},
+				multiply: function(a, b) {
+					a[0] *= b[0];
+					a[1] *= b[1];
+					a[2] *= b[2];
+					return this
+				},
+				multiplyVectors: function(a, b, c) {
+					a[0] = b[0] * c[0];
+					a[1] = b[1] * c[1];
+					a[2] = b[2] * c[2];
+					return this
+				},
+				multiplyScalar: function(a,
+					b) {
+					a[0] *= b;
+					a[1] *= b;
+					a[2] *= b;
+					return this
+				},
+				divide: function(a, b) {
+					a[0] /= b[0];
+					a[1] /= b[1];
+					a[2] /= b[2];
+					return this
+				},
+				divideVectors: function(a, b, c) {
+					a[0] = b[0] / c[0];
+					a[1] = b[1] / c[1];
+					a[2] = b[2] / c[2];
+					return this
+				},
+				divideScalar: function(a, b) {
+					b !== 0 ? (a[0] /= b, a[1] /= b, a[2] /= b) : (a[0] = 0, a[1] = 0, a[2] = 0);
+					return this
+				},
+				cross: function(a, b) {
+					var c = a[0],
+						d = a[1],
+						e = a[2];
+					a[0] = d * b[2] - e * b[1];
+					a[1] = e * b[0] - c * b[2];
+					a[2] = c * b[1] - d * b[0];
+					return this
+				},
+				crossVectors: function(a, b, c) {
+					a[0] = b[1] * c[2] - b[2] * c[1];
+					a[1] = b[2] * c[0] - b[0] * c[2];
+					a[2] = b[0] * c[1] - b[1] *
+						c[0];
+					return this
+				},
+				min: function(a, b) {
+					a[0] < b && (a[0] = b);
+					a[1] < b && (a[1] = b);
+					a[2] < b && (a[2] = b);
+					return this
+				},
+				max: function(a, b) {
+					a[0] > b && (a[0] = b);
+					a[1] > b && (a[1] = b);
+					a[2] > b && (a[2] = b);
+					return this
+				},
+				clamp: function(a, b, c) {
+					this.min(a, b);
+					this.max(a, c);
+					return this
+				},
+				limit: function(a, b, c) {
+					var d = this.length(a);
+					b !== null && d < b ? this.setLength(a, b) : c !== null && d > c && this.setLength(a, c);
+					return this
+				},
+				dot: function(a, b) {
+					return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
+				},
+				normalise: function(a) {
+					return this.divideScalar(a, this.length(a))
+				},
+				negate: function(a) {
+					return this.multiplyScalar(a,
+						-1)
+				},
+				distanceSquared: function(a, b) {
+					var c = a[0] - b[0],
+						d = a[1] - b[1],
+						e = a[2] - b[2];
+					return c * c + d * d + e * e
+				},
+				distance: function(a, b) {
+					return Math.sqrt(this.distanceSquared(a, b))
+				},
+				lengthSquared: function(a) {
+					return a[0] * a[0] + a[1] * a[1] + a[2] * a[2]
+				},
+				length: function(a) {
+					return Math.sqrt(this.lengthSquared(a))
+				},
+				setLength: function(a, b) {
+					var c = this.length(a);
+					c !== 0 && b !== c && this.multiplyScalar(a, b / c);
+					return this
+				}
+			};
+			CAV.Vector4 = {
+				create: function(a, b, c) {
+					var d = new CAV.Array(4);
+					this.set(d, a, b, c);
+					return d
+				},
+				set: function(a, b, c, d, e) {
+					a[0] = b || 0;
+					a[1] = c || 0;
+					a[2] = d || 0;
+					a[3] = e || 0;
+					return this
+				},
+				setX: function(a, b) {
+					a[0] = b || 0;
+					return this
+				},
+				setY: function(a, b) {
+					a[1] = b || 0;
+					return this
+				},
+				setZ: function(a, b) {
+					a[2] = b || 0;
+					return this
+				},
+				setW: function(a, b) {
+					a[3] = b || 0;
+					return this
+				},
+				add: function(a, b) {
+					a[0] += b[0];
+					a[1] += b[1];
+					a[2] += b[2];
+					a[3] += b[3];
+					return this
+				},
+				multiplyVectors: function(a, b, c) {
+					a[0] = b[0] * c[0];
+					a[1] = b[1] * c[1];
+					a[2] = b[2] * c[2];
+					a[3] = b[3] * c[3];
+					return this
+				},
+				multiplyScalar: function(a, b) {
+					a[0] *= b;
+					a[1] *= b;
+					a[2] *= b;
+					a[3] *= b;
+					return this
+				},
+				min: function(a, b) {
+					a[0] < b && (a[0] = b);
+					a[1] < b && (a[1] = b);
+					a[2] < b && (a[2] = b);
+					a[3] < b && (a[3] = b);
+					return this
+				},
+				max: function(a, b) {
+					a[0] > b && (a[0] = b);
+					a[1] > b && (a[1] = b);
+					a[2] > b && (a[2] = b);
+					a[3] > b && (a[3] = b);
+					return this
+				},
+				clamp: function(a, b, c) {
+					this.min(a, b);
+					this.max(a, c);
+					return this
+				}
+			};
+			CAV.Color = function(a, b) {
+				this.rgba = CAV.Vector4.create();
+				this.hex = a || "#000000";
+				this.opacity = CAV.Utils.isNumber(b) ? b : 1;
+				this.set(this.hex, this.opacity)
+			};
+			CAV.Color.prototype = {
+				set: function(a, b) {
+					var a = a.replace("#", ""),
+						c = a.length / 3;
+					this.rgba[0] = parseInt(a.substring(c * 0, c * 1), 16) / 255;
+					this.rgba[1] = parseInt(a.substring(c * 1, c * 2), 16) / 255;
+					this.rgba[2] = parseInt(a.substring(c * 2, c * 3), 16) / 255;
+					this.rgba[3] = CAV.Utils.isNumber(b) ? b : this.rgba[3];
+					return this
+				},
+				hexify: function(a) {
+					a = Math.ceil(a * 255).toString(16);
+					a.length === 1 && (a = "0" + a);
+					return a
+				},
+				format: function() {
+					var a = this.hexify(this.rgba[0]),
+						b = this.hexify(this.rgba[1]),
+						c = this.hexify(this.rgba[2]);
+					return this.hex = "#" +
+						a + b + c
+				}
+			};
+			CAV.Object = function() {
+				this.position = CAV.Vector3.create()
+			};
+			CAV.Object.prototype = {
+				setPosition: function(a, b, c) {
+					CAV.Vector3.set(this.position, a, b, c);
+					return this
+				}
+			};
+			CAV.Light = function(a, b) {
+				CAV.Object.call(this);
+				this.ambient = new CAV.Color(a || "#FFFFFF");
+				this.diffuse = new CAV.Color(b || "#FFFFFF");
+				this.ray = CAV.Vector3.create()
+			};
+			CAV.Light.prototype = Object.create(CAV.Object.prototype);
+			CAV.Vertex = function(a, b, c) {
+				this.position = CAV.Vector3.create(a, b, c)
+			};
+			CAV.Vertex.prototype = {
+				setPosition: function(a, b, c) {
+					CAV.Vector3.set(this.position, a, b, c);
+					return this
+				}
+			};
+			CAV.Triangle = function(a, b, c) {
+				this.a = a || new CAV.Vertex;
+				this.b = b || new CAV.Vertex;
+				this.c = c || new CAV.Vertex;
+				this.vertices = [this.a, this.b, this.c];
+				this.u = CAV.Vector3.create();
+				this.v = CAV.Vector3.create();
+				this.centroid = CAV.Vector3.create();
+				this.normal = CAV.Vector3.create();
+				this.color = new CAV.Color;
+				this.polygon = document.createElementNS(CAV.SVGNS, "polygon");
+				this.polygon.setAttributeNS(null, "stroke-linejoin", "round");
+				this.polygon.setAttributeNS(null, "stroke-miterlimit", "1");
+				this.polygon.setAttributeNS(null, "stroke-width",
+					"1");
+				this.computeCentroid();
+				this.computeNormal()
+			};
+			CAV.Triangle.prototype = {
+				computeCentroid: function() {
+					this.centroid[0] = this.a.position[0] + this.b.position[0] + this.c.position[0];
+					this.centroid[1] = this.a.position[1] + this.b.position[1] + this.c.position[1];
+					this.centroid[2] = this.a.position[2] + this.b.position[2] + this.c.position[2];
+					CAV.Vector3.divideScalar(this.centroid, 3);
+					return this
+				},
+				computeNormal: function() {
+					CAV.Vector3.subtractVectors(this.u, this.b.position, this.a.position);
+					CAV.Vector3.subtractVectors(this.v, this.c.position, this.a.position);
+					CAV.Vector3.crossVectors(this.normal,
+						this.u, this.v);
+					CAV.Vector3.normalise(this.normal);
+					return this
+				}
+			};
+			CAV.Geometry = function() {
+				this.vertices = [];
+				this.triangles = [];
+				this.dirty = false
+			};
+			CAV.Geometry.prototype = {
+				update: function() {
+					if (this.dirty) {
+						var a, b;
+						for (a = this.triangles.length - 1; a >= 0; a--) b = this.triangles[a], b.computeCentroid(), b
+							.computeNormal();
+						this.dirty = false
+					}
+					return this
+				}
+			};
+			CAV.Plane = function(a, b, c, d) {
+				CAV.Geometry.call(this);
+				this.width = a || 100;
+				this.height = b || 100;
+				this.segments = c || 4;
+				this.slices = d || 4;
+				this.segmentWidth = this.width / this.segments;
+				this.sliceHeight = this.height / this.slices;
+				var e, f, g, c = [];
+				e = this.width * -0.5;
+				f = this.height * 0.5;
+				for (a = 0; a <= this.segments; a++) {
+					c.push([]);
+					for (b = 0; b <= this.slices; b++) d = new CAV.Vertex(e + a * this.segmentWidth, f - b * this
+						.sliceHeight), c[a].push(d), this.vertices.push(d)
+				}
+				for (a = 0; a < this.segments; a++)
+					for (b = 0; b < this.slices; b++) d = c[a + 0][b + 0], e = c[a + 0][b +
+						1
+					], f = c[a + 1][b + 0], g = c[a + 1][b + 1], t0 = new CAV.Triangle(d, e, f), t1 = new CAV.Triangle(f,
+						e, g), this.triangles.push(t0, t1)
+			};
+			CAV.Plane.prototype = Object.create(CAV.Geometry.prototype);
+			CAV.Material = function(a, b) {
+				this.ambient = new CAV.Color(a || "#444444");
+				this.diffuse = new CAV.Color(b || "#FFFFFF");
+				this.slave = new CAV.Color
+			};
+			CAV.Mesh = function(a, b) {
+				CAV.Object.call(this);
+				this.geometry = a || new CAV.Geometry;
+				this.material = b || new CAV.Material;
+				this.side = CAV.FRONT;
+				this.visible = true
+			};
+			CAV.Mesh.prototype = Object.create(CAV.Object.prototype);
+			CAV.Mesh.prototype.update = function(a, b) {
+				var c, d, e, f, g;
+				this.geometry.update();
+				if (b)
+					for (c = this.geometry.triangles.length - 1; c >= 0; c--) {
+						d = this.geometry.triangles[c];
+						CAV.Vector4.set(d.color.rgba);
+						for (e = a.length - 1; e >= 0; e--) f = a[e], CAV.Vector3.subtractVectors(f.ray, f.position, d
+								.centroid), CAV.Vector3.normalise(f.ray), g = CAV.Vector3.dot(d.normal, f.ray), this.side ===
+							CAV.FRONT ? g = Math.max(g, 0) : this.side === CAV.BACK ? g = Math.abs(Math.min(g, 0)) : this
+							.side === CAV.DOUBLE && (g = Math.max(Math.abs(g), 0)), CAV.Vector4.multiplyVectors(this.material
+								.slave.rgba,
+								this.material.ambient.rgba, f.ambient.rgba), CAV.Vector4.add(d.color.rgba, this.material
+								.slave.rgba), CAV.Vector4.multiplyVectors(this.material.slave.rgba, this.material.diffuse
+								.rgba, f.diffuse.rgba), CAV.Vector4.multiplyScalar(this.material.slave.rgba, g), CAV.Vector4
+							.add(d.color.rgba, this.material.slave.rgba);
+						CAV.Vector4.clamp(d.color.rgba, 0, 1)
+					}
+				return this
+			};
+			CAV.Scene = function() {
+				this.meshes = [];
+				this.lights = []
+			};
+			CAV.Scene.prototype = {
+				add: function(a) {
+					a instanceof CAV.Mesh && !~this.meshes.indexOf(a) ? this.meshes.push(a) : a instanceof CAV.Light && !
+						~this.lights.indexOf(a) && this.lights.push(a);
+					return this
+				},
+				remove: function(a) {
+					a instanceof CAV.Mesh && ~this.meshes.indexOf(a) ? this.meshes.splice(this.meshes.indexOf(a), 1) :
+						a instanceof CAV.Light && ~this.lights.indexOf(a) && this.lights.splice(this.lights.indexOf(a),
+							1);
+					return this
+				}
+			};
+			CAV.Renderer = function() {
+				this.halfHeight = this.halfWidth = this.height = this.width = 0
+			};
+			CAV.Renderer.prototype = {
+				setSize: function(a, b) {
+					if (!(this.width === a && this.height === b)) return this.width = a, this.height = b, this
+						.halfWidth = this.width * 0.5, this.halfHeight = this.height * 0.5, this
+				},
+				clear: function() {
+					return this
+				},
+				render: function() {
+					return this
+				}
+			};
+			CAV.CanvasRenderer = function() {
+				CAV.Renderer.call(this);
+				this.element = document.createElement("canvas");
+				this.element.style.display = "block";
+				this.context = this.element.getContext("2d");
+				this.setSize(this.element.width, this.element.height)
+			};
+			CAV.CanvasRenderer.prototype = Object.create(CAV.Renderer.prototype);
+			CAV.CanvasRenderer.prototype.setSize = function(a, b) {
+				CAV.Renderer.prototype.setSize.call(this, a, b);
+				this.element.width = a;
+				this.element.height = b;
+				this.context.setTransform(1, 0, 0, -1, this.halfWidth, this.halfHeight);
+				return this
+			};
+			CAV.CanvasRenderer.prototype.clear = function() {
+				CAV.Renderer.prototype.clear.call(this);
+				this.context.clearRect(-this.halfWidth, -this.halfHeight, this.width, this.height);
+				return this
+			};
+			CAV.CanvasRenderer.prototype.render = function(a) {
+				CAV.Renderer.prototype.render.call(this, a);
+				var b, c, d, e, f;
+				this.clear();
+				this.context.lineJoin = "round";
+				this.context.lineWidth = 1;
+				for (b = a.meshes.length - 1; b >= 0; b--)
+					if (c = a.meshes[b], c.visible) {
+						c.update(a.lights, true);
+						for (d = c.geometry.triangles.length - 1; d >= 0; d--) e = c.geometry.triangles[d], f = e.color
+							.format(), this.context.beginPath(), this.context.moveTo(e.a.position[0], e.a.position[1]), this
+							.context.lineTo(e.b.position[0], e.b.position[1]), this.context.lineTo(e.c.position[0],
+								e.c.position[1]), this.context.closePath(), this.context.strokeStyle = f, this.context
+							.fillStyle = f, this.context.stroke(), this.context.fill()
+					} return this
+			};
+
+			function Victor(container, anitOut) {
+				if (!!document.createElement("canvas").getContext) {
+					var t = {
+						width: 1.5,
+						height: 1.5,
+						depth: 10,
+						segments: 12,
+						slices: 6,
+						xRange: 0.8,
+						yRange: 0.1,
+						zRange: 1,
+						ambient: "#525252",
+						diffuse: "#A5A5A5",
+						speed: 0.0002
+					};
+					var G = {
+						count: 2,
+						xyScalar: 1,
+						zOffset: 100,
+						ambient: "#1c8bff",
+						diffuse: "#1c8bff",
+						speed: 0.001,
+						gravity: 1200,
+						dampening: 0.95,
+						minLimit: 10,
+						maxLimit: null,
+						minDistance: 20,
+						maxDistance: 400,
+						autopilot: false,
+						draw: false,
+						bounds: CAV.Vector3.create(),
+						step: CAV.Vector3.create(Math.randomInRange(0.2, 1), Math.randomInRange(0.2, 1), Math.randomInRange(
+							0.2, 1))
+					};
+					var m = "canvas";
+					var E = "svg";
+					var x = {
+						renderer: m
+					};
+					var i, n = Date.now();
+					var L = CAV.Vector3.create();
+					var k = CAV.Vector3.create();
+					var z = document.getElementById(container || "container");
+					var w = document.getElementById(anitOut || "anitOut");
+					var D, I, h, q, y;
+					var g;
+					var r;
+
+					function C() {
+						F();
+						p();
+						s();
+						B();
+						v();
+						K(z.offsetWidth, z.offsetHeight);
+						o()
+					}
+
+					function F() {
+						g = new CAV.CanvasRenderer();
+						H(x.renderer)
+					}
+
+					function H(N) {
+						if (D) {
+							w.removeChild(D.element)
+						}
+						switch (N) {
+							case m:
+								D = g;
+								break
+						}
+						D.setSize(z.offsetWidth, z.offsetHeight);
+						w.appendChild(D.element)
+					}
+
+					function p() {
+						I = new CAV.Scene()
+					}
+
+					function s() {
+						I.remove(h);
+						D.clear();
+						q = new CAV.Plane(t.width * D.width, t.height * D.height, t.segments, t.slices);
+						y = new CAV.Material(t.ambient, t.diffuse);
+						h = new CAV.Mesh(q, y);
+						I.add(h);
+						var N, O;
+						for (N = q.vertices.length - 1; N >= 0; N--) {
+							O = q.vertices[N];
+							O.anchor = CAV.Vector3.clone(O.position);
+							O.step = CAV.Vector3.create(Math.randomInRange(0.2, 1), Math.randomInRange(0.2, 1), Math
+								.randomInRange(0.2, 1));
+							O.time = Math.randomInRange(0, Math.PIM2)
+						}
+					}
+
+					function B() {
+						var O, N;
+						for (O = I.lights.length - 1; O >= 0; O--) {
+							N = I.lights[O];
+							I.remove(N)
+						}
+						D.clear();
+						for (O = 0; O < G.count; O++) {
+							N = new CAV.Light(G.ambient, G.diffuse);
+							N.ambientHex = N.ambient.format();
+							N.diffuseHex = N.diffuse.format();
+							I.add(N);
+							N.mass = Math.randomInRange(0.5, 1);
+							N.velocity = CAV.Vector3.create();
+							N.acceleration = CAV.Vector3.create();
+							N.force = CAV.Vector3.create()
+						}
+					}
+
+					function K(O, N) {
+						D.setSize(O, N);
+						CAV.Vector3.set(L, D.halfWidth, D.halfHeight);
+						s()
+					}
+
+					function o() {
+						i = Date.now() - n;
+						u();
+						M();
+						requestAnimationFrame(o)
+					}
+
+					function u() {
+						var Q, P, O, R, T, V, U, S = t.depth / 2;
+						CAV.Vector3.copy(G.bounds, L);
+						CAV.Vector3.multiplyScalar(G.bounds, G.xyScalar);
+						CAV.Vector3.setZ(k, G.zOffset);
+						for (R = I.lights.length - 1; R >= 0; R--) {
+							T = I.lights[R];
+							CAV.Vector3.setZ(T.position, G.zOffset);
+							var N = Math.clamp(CAV.Vector3.distanceSquared(T.position, k), G.minDistance, G.maxDistance);
+							var W = G.gravity * T.mass / N;
+							CAV.Vector3.subtractVectors(T.force, k, T.position);
+							CAV.Vector3.normalise(T.force);
+							CAV.Vector3.multiplyScalar(T.force, W);
+							CAV.Vector3.set(T.acceleration);
+							CAV.Vector3.add(T.acceleration, T.force);
+							CAV.Vector3.add(T.velocity, T.acceleration);
+							CAV.Vector3.multiplyScalar(T.velocity, G.dampening);
+							CAV.Vector3.limit(T.velocity, G.minLimit, G.maxLimit);
+							CAV.Vector3.add(T.position, T.velocity)
+						}
+						for (V = q.vertices.length - 1; V >= 0; V--) {
+							U = q.vertices[V];
+							Q = Math.sin(U.time + U.step[0] * i * t.speed);
+							P = Math.cos(U.time + U.step[1] * i * t.speed);
+							O = Math.sin(U.time + U.step[2] * i * t.speed);
+							CAV.Vector3.set(U.position, t.xRange * q.segmentWidth * Q, t.yRange * q.sliceHeight * P, t.zRange *
+								S * O - S);
+							CAV.Vector3.add(U.position, U.anchor)
+						}
+						q.dirty = true
+					}
+
+					function M() {
+						D.render(I)
+					}
+
+					function J(O) {
+						var Q, N, S = O;
+						var P = function(T) {
+							for (Q = 0, l = I.lights.length; Q < l; Q++) {
+								N = I.lights[Q];
+								N.ambient.set(T);
+								N.ambientHex = N.ambient.format()
+							}
+						};
+						var R = function(T) {
+							for (Q = 0, l = I.lights.length; Q < l; Q++) {
+								N = I.lights[Q];
+								N.diffuse.set(T);
+								N.diffuseHex = N.diffuse.format()
+							}
+						};
+						return {
+							set: function() {
+								P(S[0]);
+								R(S[1])
+							}
+						}
+					}
+
+					function v() {
+						window.addEventListener("resize", j)
+					}
+
+					function A(N) {
+						CAV.Vector3.set(k, N.x, D.height - N.y);
+						CAV.Vector3.subtract(k, L)
+					}
+
+					function j(N) {
+						K(z.offsetWidth, z.offsetHeight);
+						M()
+					}
+					C();
+				}
+				return J;
+			}
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="output">
+				<div class="containerT">
+
+					<!-- icon -->
+					<div id="icon" style="margin-top: 10%;margin-left: -7%; text-align: center;" >
+						<span class="anim-fade-in">
+							<svg t="1627063431714" class="icon" viewBox="0 0 1024 1024" version="1.1"
+								xmlns="http://www.w3.org/2000/svg" p-id="2045" width="40" height="40">
+								<path
+									d="M880.88381 461.04381a97.718857 97.718857 0 0 1 0 137.99619l-241.371429 241.371429a97.718857 97.718857 0 0 1-137.996191 0 97.718857 97.718857 0 0 1 0-137.996191l241.371429-241.371428c38.034286-37.790476 100.205714-37.790476 137.996191 0z"
+									fill="#13227a" p-id="2046"></path>
+								<path
+									d="M762.63619 905.752381h-71.43619c-6.826667 0-12.190476-5.36381-12.190476-12.190476s5.36381-12.190476 12.190476-12.190476h71.43619c20.23619 0 36.571429-16.335238 36.571429-36.571429v-72.167619c0-6.826667 5.36381-12.190476 12.190476-12.190476s12.190476 5.36381 12.190476 12.190476v72.167619a60.952381 60.952381 0 0 1-60.952381 60.952381zM375.222857 905.752381H240.88381a60.952381 60.952381 0 0 1-60.952381-60.952381V198.217143a60.952381 60.952381 0 0 1 60.952381-60.952381h521.75238a60.952381 60.952381 0 0 1 60.952381 60.952381v130.925714c0 6.826667-5.36381 12.190476-12.190476 12.190476s-12.190476-5.36381-12.190476-12.190476V198.217143c0-20.23619-16.335238-36.571429-36.571429-36.571429H240.88381c-20.23619 0-36.571429 16.335238-36.571429 36.571429v646.826667c0 20.23619 16.335238 36.571429 36.571429 36.571428h134.339047c6.826667 0 12.190476 5.36381 12.190476 12.190476s-5.36381 11.946667-12.190476 11.946667z"
+									p-id="2047" fill="#13227a"></path>
+								<path
+									d="M714.849524 318.902857H408.380952c-6.826667 0-12.190476-5.36381-12.190476-12.190476s5.36381-12.190476 12.190476-12.190476h306.224762c6.826667 0 12.190476 5.36381 12.190476 12.190476s-5.36381 12.190476-11.946666 12.190476zM666.575238 445.927619H408.380952c-6.826667 0-12.190476-5.36381-12.190476-12.190476s5.36381-12.190476 12.190476-12.190476h257.950477c6.826667 0 12.190476 5.36381 12.190476 12.190476s-5.36381 12.190476-11.946667 12.190476zM537.6 572.708571h-128.975238c-6.826667 0-12.190476-5.36381-12.190476-12.190476s5.36381-12.190476 12.190476-12.190476h128.975238c6.826667 0 12.190476 5.36381 12.190476 12.190476s-5.607619 12.190476-12.190476 12.190476zM323.047619 318.902857h-34.133333c-6.826667 0-12.190476-5.36381-12.190476-12.190476s5.36381-12.190476 12.190476-12.190476h34.133333c6.826667 0 12.190476 5.36381 12.190476 12.190476s-5.36381 12.190476-12.190476 12.190476zM323.047619 445.927619h-34.133333c-6.826667 0-12.190476-5.36381-12.190476-12.190476s5.36381-12.190476 12.190476-12.190476h34.133333c6.826667 0 12.190476 5.36381 12.190476 12.190476s-5.36381 12.190476-12.190476 12.190476zM323.047619 572.708571h-34.133333c-6.826667 0-12.190476-5.36381-12.190476-12.190476s5.36381-12.190476 12.190476-12.190476h34.133333c6.826667 0 12.190476 5.36381 12.190476 12.190476s-5.36381 12.190476-12.190476 12.190476z"
+									p-id="2048" fill="#13227a"></path>
+								<path
+									d="M323.047619 699.733333h-34.133333c-6.826667 0-12.190476-5.36381-12.190476-12.190476s5.36381-12.190476 12.190476-12.190476h34.133333c6.826667 0 12.190476 5.36381 12.190476 12.190476s-5.36381 12.190476-12.190476 12.190476z"
+									p-id="2049" fill="#13227a"></path>
+								<path
+									d="M420.327619 934.034286a11.459048 11.459048 0 0 1-8.533333-3.657143 11.873524 11.873524 0 0 1-3.413334-10.48381l31.939048-204.55619c0.487619-2.438095 1.706667-4.87619 3.413333-6.826667L767.024762 385.219048c22.186667-22.186667 56.56381-23.893333 76.55619-3.900953l117.272381 117.272381c9.99619 9.99619 14.872381 23.405714 13.897143 38.278095-0.975238 14.140952-7.314286 27.794286-17.798095 38.278096L633.417143 898.681905c-1.950476 1.706667-4.388571 2.925714-6.826667 3.413333l-204.55619 31.939048h-1.706667z m43.154286-210.895238l-28.769524 184.07619 184.07619-28.769524 320.609524-320.609524c6.339048-6.339048 9.99619-14.384762 10.727619-22.674285 0.487619-7.558095-1.950476-14.628571-6.826666-19.504762l-117.272381-117.272381c-10.24-10.24-29.744762-8.533333-42.179048 3.900952L463.481905 723.139048z m484.693333-156.525715z"
+									p-id="2050" fill="#13227a"></path>
+								<path
+									d="M890.63619 636.342857a11.459048 11.459048 0 0 1-8.533333-3.657143l-172.617143-172.617143c-4.87619-4.87619-4.87619-12.434286 0-17.310476s12.434286-4.87619 17.310476 0l172.617143 172.617143c4.87619 4.87619 4.87619 12.434286 0 17.310476-2.438095 2.438095-5.607619 3.657143-8.777143 3.657143z"
+									p-id="2051" fill="#13227a"></path>
+								<path
+									d="M537.112381 915.992381a11.459048 11.459048 0 0 1-8.533333-3.657143l-93.866667-93.866667c-4.87619-4.87619-4.87619-12.434286 0-17.310476s12.434286-4.87619 17.310476 0l93.866667 93.866667c4.87619 4.87619 4.87619 12.434286 0 17.310476-2.681905 2.438095-5.607619 3.657143-8.777143 3.657143z"
+									p-id="2052" fill="#13227a"></path>
+								<path
+									d="M522.727619 774.095238a11.459048 11.459048 0 0 1-8.533333-3.657143c-4.87619-4.87619-4.87619-12.434286 0-17.310476l252.830476-252.830476c4.87619-4.87619 12.434286-4.87619 17.310476 0s4.87619 12.434286 0 17.310476L531.260952 770.438095c-2.438095 2.438095-5.607619 3.657143-8.533333 3.657143z"
+									p-id="2053" fill="#13227a"></path>
+								<path
+									d="M580.266667 831.634286a11.459048 11.459048 0 0 1-8.533334-3.657143c-4.87619-4.87619-4.87619-12.434286 0-17.310476l252.830477-252.830477c4.87619-4.87619 12.434286-4.87619 17.310476 0s4.87619 12.434286 0 17.310477L588.8 827.977143c-2.438095 2.438095-5.607619 3.657143-8.533333 3.657143z"
+									p-id="2054" fill="#13227a"></path>
+							</svg>
+						</span>
+					</div>
+					<form method="post" action="">
+
+						<!-- name -->
+						<div class="form-group">
+							<div class="form-group-header">
+								<label for="example-text">Name</label>
+							</div>
+							<div class="form-group-body">
+								<input class="form-control" type="text" value="" id="name" name="name" style="width: 50%;" />
+							</div>
+						</div>
+
+						<!-- grade -->
+						<div class="form-group">
+							<div class="form-group-header">
+								<label for="grade-select">Grade</label>
+							</div>
+							<div class="form-group-body">
+								<select class="form-select" id="grade-select" name="grade" aria-label="Preference">
+									<script>
+										for (var year = 2000; year < 2020; year++) {
+											$("#grade-select").append("<option>" + year + "</option>");
+										}
+									</script>
+
+								</select>
+							</div>
+						</div>
+
+						<!-- department -->
+						<div class="form-group">
+							<div class="form-group-header">
+								<label for="department">Department</label>
+							</div>
+							<div class="form-group-body">
+								<select class="form-select" name="department_id" id="department">
+                                    {% for dept in departments %}
+                                    <option value="{{ dept.id }}">{{ dept.name }}</option>
+                                    {% endfor %}
+
+
+								</select>
+
+							</div>
+						</div>
+
+						<!-- studentID -->
+						<div class="form-group">
+							<div class="form-group-header">
+								<label for="studentID">StudentID</label>
+							</div>
+							<div class="form-group-body">
+								<input class="form-control" type="text" name="studentID" value="" id="studentID" style="width: 60%;" />
+							</div>
+						</div>
+
+						<br />
+						<div class="form-group" style="text-align: right;padding-right: 6%;">
+							<button class="btn btn-outline mr-2" type="submit" >
+								<!-- <%= octicon "device-desktop" %> -->
+								<svg t="1626849636226" class="icon" viewBox="0 0 1024 1024" version="1.1"
+									xmlns="http://www.w3.org/2000/svg" p-id="2042" width="16" height="16">
+									<path
+										d="M927.630222 173.511111l-0.853333 5.12-148.423111 615.537778a34.133333 34.133333 0 0 1-44.088889 24.348444l-4.949333-2.161777-263.566223-138.808889v171.349333a34.133333 34.133333 0 0 1-28.615111 33.678222l-5.518222 0.455111a34.133333 34.133333 0 0 1-33.678222-28.558222l-0.455111-5.575111v-215.04a34.133333 34.133333 0 0 1 6.826666-20.48l3.640889-4.096 356.693334-343.665778-542.378667 242.289778 121.514667 62.350222a34.133333 34.133333 0 0 1 16.952888 40.846222l-2.161777 5.12a34.133333 34.133333 0 0 1-40.789334 16.952889l-5.12-2.161777-184.888889-94.776889a34.133333 34.133333 0 0 1-3.242666-58.88l4.892444-2.673778 750.250667-335.189333a34.133333 34.133333 0 0 1 47.957333 34.076444z m-100.352 126.520889l-329.386666 317.269333 224.369777 118.215111 105.016889-435.484444z"
+										fill="#1296db" p-id="2043"></path>
+								</svg>
+								&nbsp;<span>Check Personal Message</span>
+							</button>
+						</div>
+                    {% csrf_token %}
+					</form>
+
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function() {
+				Victor("container", "output"); //登陆背景函数
+				$("#entry_name").focus();
+				$(document).keydown(function(event) {
+					if (event.keyCode == 13) {
+						$("#entry_btn").click();
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

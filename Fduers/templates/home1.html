@@ -1,186 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>主站</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <meta charset="UTF-8">
+  <title>主站</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <style>
-@media (min-width: 48em) {
-  html {
-    font-size: 18px;
+  @media (min-width: 48em) {
+    html {
+      font-size: 18px;
+    }
   }
-}
 
-body {
-  font-family: Georgia, '微软雅黑', Times, serif;
-}
+  body {
+    font-family: Georgia, '微软雅黑', Times, serif;
+  }
 
-/*
+  /*
  * Footer
  */
 
-.blog-footer {
-  padding: 1rem 0;
-  color: #999;
-  text-align: center;
-  background-color: #f9f9f9;
-  border-top: 0.05rem solid #e5e5e5;
-}
-.blog-footer p:last-child {
-  margin-bottom: 0;
-}
+  .blog-footer {
+    padding: 1rem 0;
+    color: #999;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-top: 0.05rem solid #e5e5e5;
+  }
 
+  .blog-footer p:last-child {
+    margin-bottom: 0;
+  }
 </style>
+
 <body>
 
-<div class="container">
-	<div class="row">
-			<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-				<div class="navbar-header">
-					 <a class="navbar-brand" style="color: #2c6eb5;">校友会平台</a>
-				</div>
-
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav active">
-						<li class="nav-link">
-							 <a href="./home1.html">主站</a>
-						</li>
-						<li class="nav-link">
-							 <a href="#">已关注的帖子</a>
-						</li>
-                        <li class="nav-link">
-                            <a href="#">活动贴</a>
-                        </li>
-						<li class="dropdown">
-							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">地域社区</a>
-							<ul class="dropdown-menu">
-								<li><a href="./TieLists.html">上海</a></li>
-								<li><a href="#">北京</a></li>
-								<li><a href="#">广州</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Separated link</a></li>
-								<li class="divider"></li>
-								<li><a href="#">One more separated link</a></li>
-							</ul>
-						</li>
-
-						<li class="dropdown">
-							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">行业社区</a>
-							<ul class="dropdown-menu">
-								<li><a href="#">计算机</a></li>
-								<li><a href="#">金融</a></li>
-								<li><a href="#">法律</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Separated link</a></li>
-								<li class="divider"></li>
-								<li><a href="#">One more separated link</a></li>
-							</ul>
-						</li>
-					</ul>
-
-					<ul class="nav navbar-nav navbar-right">
-						<li  class="nav-link">
-							 <a href="#" style="background: #3380d3; color: white">发帖</a>
-						</li>
-						<li class="dropdown">
-							 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">Action</a></li>
-								<li><a href="#">Another action</a></li>
-								<li><a href="#">Something else here</a>
-								</li><li class="divider"></li>
-								<li><a href="#">Separated link</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</nav>
-	</div>
-    <div class="row" style="padding-top: 6rem;">
-        <div class="col-md-3" style="margin-left: 0rem;">
-            <div class="card card-body">
-                  <a><img src="#">用户名</a>
-                  <h4>复旦大学</h4>
-                  <h4>计算机科学技术学院</h4>
-                  <p class="card-text">天空好好看！！！</p>
-                    <hr>
-
-                  <div class="list-group">
-                        <a href="javascript:void(0);" class="list-group-item list-group-item-action active">
-                            <span class="badge">14</span> 我的消息
-                        </a>
-                        <a href="javascript:void(0);" class="list-group-item list-group-item-action">
-                            <span class="badge">3</span> 我的活动
-                        </a>
-                        <a href="javascript:void(0);" class="list-group-item list-group-item-action">
-                            <span class="badge">2</span> 我的发帖
-                        </a>
-                        <a href="javascript:void(0);" class="list-group-item list-group-item-action">
-                            <span class="badge">2</span> 我的回复
-                        </a>
-                        <a href="javascript:void(0);" class="list-group-item list-group-item-action">浏览记录</a>
-                  </div>
-            </div>
+  <div class="container">
+    <div class="row">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <a class="navbar-brand" style="color: #2c6eb5;">校友会平台</a>
         </div>
 
-        <div class="col-md-9 column">
-            <div class="card-group">
-              <div class="card">
-                <div class="card-header"><h2>热点话题</h2></div>
-                {% for hot in HotList %}
-                <div class="card-body">
-
-                    <a href="./tie.html" class="card-link"><h3>今天是七月二十号</h3></a>
-                    <span>来自：<a href="#">{{hot.username}}</a></span>
-                    <span style="color:gray">{{ hot.createdTime }}发布</span>
-                    <span class="badge badge-primary">点击量: 1000</span>
-                    <hr>
-
-                </div>
-
-                <div class="card-body">
-                    <a href="javascript:void(0);" class="card-link"><h3>天气好热啊</h3></a>
-                    <span>来自：<a href="#">{{hot.username}}</a></span>
-                    <span style="color:gray">{{ hot.createdTime }}发布</span>
-                    <span class="badge badge-primary">点击量: 1000</span>
-                    <hr>
-                </div>
-
-				 <div class="card-body">
-                    <a href="./tie.html" class="card-link"><h3>nie sai te zei</h3></a>
-                    <span>来自：<a href="#">{{hot.username}}</a></span>
-                    <span style="color:gray">{{ hot.createdTime }}发布</span>
-                    <span class="badge badge-primary">点击量: 1000</span>
-                    <hr>
-                 </div>
-
-				  <div class="card-body">
-                    <a href="./tie.html" class="card-link"><h3>emmmmmmmm</h3></a>
-                    <span>来自：<a href="#">{{hot.username}}</a></span>
-                    <span style="color:gray">{{ hot.createdTime }}发布</span>
-                    <span class="badge badge-primary">点击量: 1000</span>
-                    <hr>
-                 </div>
-
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav active">
+            <li class="nav-link">
+              <a href="/index/">主站</a>
+            </li>
+            <li class="nav-link">
+              <a href="/tieLists/stars/">已关注的帖子</a>
+            </li>
+            <li class="nav-link">
+              <a href="/activities/">活动</a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">地域社区</a>
+              <!-- -------------------------------------------------------------------------------------------------------------- -->
+              <ul class="dropdown-menu">
+                <li><a href="/tieLists/province/{{user.prov_id}}">我的地区</a></li>
+                <li class="divider"></li>
+                {% for prov in province%}
+                <li><a href="/tieLists/province/{{prov.id}}">{{prov.name}}</a></li>
                 {% endfor %}
-              </div>
-            </div>
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">行业社区</a>
+              <ul class="dropdown-menu">
+                <li><a href="/tieLists/industry/{{user.industry_id}}">我的行业</a></li>
+                <li class="divider"></li>
+                {%for item in industry%}
+                <li><a href="/tieLists/industry/{{item.id}}">{{item.name}}</a></li>
+                {%endfor%}
+                <!-- <li class="divider"></li>
+								<li><a href="#">One more separated link</a></li> -->
+              </ul>
+            </li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li class="nav-link">
+              <a href="/postTie/" style="background: #3380d3; color: white">发帖</a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{username}}<strong class="caret"></strong></a>
+              <ul class="dropdown-menu">
+                <li><a href="/changemessage/">个人信息设置</a></li>
+                <li><a href="/messageBoard/">我的留言板</a></li>
+                <!-- <li><a href="#">Something else here</a> -->
+            </li>
+            <li class="divider"></li>
+            <li><a href="/logout">Log out</a></li>
+          </ul>
+          </li>
+          </ul>
         </div>
+      </nav>
     </div>
-</div>
+    <div class="row" style="padding-top: 6rem;">
+      <div class="col-md-3" style="margin-left: 0rem;">
+        <div class="card card-body">
+          <a><img src="/media/{{img_pth}}" height="60%" width="60%" /></a>
+          <h4>欢迎您！{{username}}</h4>
+          <h4>{{department}}</h4>
+          <p class="card-text">{{user.eassy}}</p>
+          <hr>
+
+          <div class="list-group">
+            <a href="javascript:void(0);" class="list-group-item list-group-item-action active">
+              <span class="badge">{{msgcnt}}</span> 我的消息
+            </a>
+            <a href="/myactivities/" class="list-group-item list-group-item-action">
+              <span class="badge">{{actcnt}}</span> 我的活动
+            </a>
+            <a href="/mypost/" class="list-group-item list-group-item-action">
+              <span class="badge">{{mytiecnt}}</span> 我的发帖
+            </a>
+            <a href="/myreply/" class="list-group-item list-group-item-action">
+              <span class="badge">{{replycnt}}</span> 我的回复
+            </a>
+            <!-- <a href="javascript:void(0);" class="list-group-item list-group-item-action">浏览记录</a> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 column">
+        <div class="card-group">
+          <div class="card">
+            <div class="card-header">
+              <h2>热点话题</h2>
+            </div>
+            {% for hot in HotList %}
+            <div class="card-body">
+
+              <a href="/tie/{{hot.id}}" class="card-link">
+                <h3>{{hot.title}}</h3>
+              </a>
+              <span>来自：<a href="#">{{hot.author}}</a></span>
+              <span style="color:gray">{{ hot.createdTime }}发布</span>
+              <span class="badge badge-primary">点击量: {{ hot.access }}</span>
+              <hr>
+
+            </div>
+
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
-<footer class="blog-footer">
-  <p>校友会平台
-    <a href="https://getbootstrap.com/">Bootstrap</a> by
-    <a href="#">软工小组</a>.</p>
-  <p>
-    <a href="#">Back to top</a>
-  </p>
-</footer>
+  <footer class="blog-footer">
+    <p>校友会平台
+      <a href="https://getbootstrap.com/">Bootstrap</a> by
+      <a href="#">软工小组</a>.
+    </p>
+    <p>
+      <a href="#">Back to top</a>
+    </p>
+  </footer>
 
 </body>
+
 </html>

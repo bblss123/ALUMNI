@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <title>{{tieFind.title}}</title>
+  <!--<script src="../static/JS/tie.js"></script>-->
+  <script src="https://code.jquery.com/jquery.js"></script>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <style>
+    /*
+ * Globals
+ */
+
+    @media (min-width: 48em) {
+      html {
+        font-size: 18px;
+      }
+    }
+
+    body {
+      font-family: Georgia, '微软雅黑', Times, serif;
+    }
+
+    h1,
+    .h1,
+    h2,
+    .h2,
+    h3,
+    .h3,
+    h4,
+    .h4,
+    h5,
+    .h5,
+    h6,
+    .h6 {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 400;
+      color: #333;
+    }
+
+
+    /*
+ * Blog name and description
+ */
+
+    .blog-header {
+      margin-top: 2rem;
+      padding-bottom: 1.25rem;
+      margin-bottom: 2rem;
+      border-bottom: 0.05rem solid #eee;
+    }
+
+    .blog-title {
+      margin-bottom: 0;
+      font-size: 2rem;
+      font-weight: 400;
+    }
+
+    .blog-description {
+      font-size: 1.1rem;
+      color: #999;
+    }
+
+    @media (min-width: 40em) {
+      .blog-title {
+        font-size: 3.5rem;
+      }
+    }
+
+    /*
+ * Main column and sidebar layout
+ */
+
+    /* Sidebar modules for boxing content */
+    .sidebar-module {
+      padding: 1rem;
+    }
+
+    .sidebar-module-inset {
+      padding: 1rem;
+      background-color: #f5f5f5;
+      border-radius: 0.25rem;
+    }
+
+    .sidebar-module-inset p:last-child,
+    .sidebar-module-inset ul:last-child,
+    .sidebar-module-inset ol:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Pagination */
+    .blog-pagination {
+      margin-bottom: 4rem;
+    }
+
+    .blog-pagination>.btn {
+      border-radius: 2rem;
+    }
+
+    /*
+ * Blog posts
+ */
+
+    .blog-post {
+      margin-bottom: 4rem;
+    }
+
+    .blog-post-title {
+      margin-bottom: 0.25rem;
+      font-size: 2.5rem;
+    }
+
+    .blog-post-meta {
+      margin-bottom: 1.25rem;
+      color: #999;
+    }
+
+    .btn btn-outline-primary {
+      input-bg: white;
+
+    }
+
+    /*
+ * Footer
+ */
+
+    .blog-footer {
+      padding: 1rem 0;
+      color: #999;
+      text-align: center;
+      background-color: #f9f9f9;
+      border-top: 0.05rem solid #e5e5e5;
+    }
+
+    .blog-footer p:last-child {
+      margin-bottom: 0;
+    }
+  </style>
+  <script>
+    // 帖子点赞
+    var tie_thumb_isclick = false;
+    function tieThumb() {
+      var c = document.getElementById('tiethumb_num');
+      tie_thumb_num = parseInt(c.innerText);
+      if (tie_thumb_isclick == false) {
+        tie_thumb_isclick = true;
+        tie_thumb_num += 1;
+      }
+      else if (tie_thumb_isclick == true) {
+        tie_thumb_isclick = false;
+        tie_thumb_num -= 1;
+      }
+      c.innerText = tie_thumb_num;
+    }
+
+    // 回复点赞
+    var reply_thumb_isclick = false;
+    function replyThumb() {
+      var c = document.getElementById('replythumb_num');
+      reply_thumb_num = parseInt(c.innerText);
+      if (reply_thumb_isclick == false) {
+        reply_thumb_isclick = true;
+        reply_thumb_num += 1;
+      }
+      else if (reply_thumb_isclick == true) {
+        reply_thumb_isclick = false;
+        reply_thumb_num -= 1;
+      }
+      c.innerText = reply_thumb_num;
+    }
+
+    // 帖子收藏
+    // TODO: 后台个人信息表格的关联
+    var tie_collect_isclick = false;
+    function tieCollect() {
+      var c = document.getElementById('tiecollect_num');
+      tie_collect_num = parseInt(c.innerText);
+      if (tie_collect_isclick == false) {
+        tie_collect_isclick = true;
+        tie_collect_num += 1;
+      }
+      else if (tie_collect_isclick == true) {
+        tie_collect_isclick = false;
+        tie_collect_num -= 1;
+      }
+      c.innerText = tie_collect_num;
+    }
+
+    function send(){
+      var formData = new FormData();
+      formData.append("usr", "zjx");
+      $.ajax({
+        url: "/stars/",
+        type: "POST",
+        dataType: "json",
+        contentType: false,
+        processData: false,
+        data: formData,
+        complete: function(data){
+
+        },
+        success: function(data){
+
+        },
+        error: function(data){
+          
+        }
+      })
+    }
+
+    // TODO: 只看楼主
+    function hostreply() {
+      var c = document.getElementById('reply_content');
+    }
+  </script>
+</head>
+
+<body>
+
+  <header>
+    <!--  <div class="blog-masthead">-->
+    <!--    <div class="container">-->
+    <!--      <nav class="nav">-->
+    <!--        <a class="nav-link active" href="#">主站</a>-->
+    <!--        <a class="nav-link active" href="#">地域社区</a>-->
+    <!--        <a class="nav-link active" href="#">行业社区</a>-->
+    <!--        <a class="nav-link active" href="#">关于我们</a>-->
+    <!--      </nav>-->
+    <!--    </div>-->
+    <!--  </div>-->
+
+    <div class="blog-masthead">
+      <div class="row">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+          <div class="navbar-header">
+            <a class="navbar-brand" style="color: #2c6eb5;">校友会平台</a>
+          </div>
+  
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav active">
+              <li class="nav-link">
+                <a href="/index/">主站</a>
+              </li>
+              <li class="nav-link">
+                <a href="#">已关注的帖子</a>
+              </li>
+              <li class="nav-link">
+                <a href="/activities/">活动</a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">地域社区</a>
+                <!-- -------------------------------------------------------------------------------------------------------------- -->
+                <ul class="dropdown-menu">
+                  <li><a href="/tieLists/province/{{user.prov_id}}">我的地区</a></li>
+                  <li class="divider"></li>
+                  {% for prov in province%}
+                  <li><a href="/tieLists/{{prov.id}}">{{prov.name}}</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+  
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">行业社区</a>
+                <ul class="dropdown-menu">
+                  <li><a href="/tieLists/industry/{{user.industry_id}}">我的行业</a></li>
+                  <li class="divider"></li>
+                  {%for item in industry%}
+                  <li><a href="/tieLists/{{item.id}}">{{item.name}}</a></li>
+                  {%endfor%}
+                  <!-- <li class="divider"></li>
+                  <li><a href="#">One more separated link</a></li> -->
+                </ul>
+              </li>
+            </ul>
+  
+            <ul class="nav navbar-nav navbar-right">
+              <li class="nav-link">
+                <a href="/postTie/" style="background: #3380d3; color: white">发帖</a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{username}}<strong class="caret"></strong></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">个人主页</a></li>
+                  <li><a href="/messageBoard/">我的留言板</a></li>
+                  <!-- <li><a href="#">Something else here</a> -->
+              </li>
+              <li class="divider"></li>
+              <li><a href="/login">Log out</a></li>
+            </ul>
+            </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <div class="blog-header" style="padding-top: 3rem;">
+      <div class="container">
+        <h1 class="blog-title">{{ tieFind.title }}</h1>
+        <p class="lead blog-description">
+          {% for tag in tieFind.tag.all %}
+          <span style="text-align:center">{{ tag }}</span>
+          {% endfor %}
+        </p>
+        <p class="blog-post-meta"> {{ tieFind.createdTime }} 来自
+          <a href="#">{{author.username}}</a>
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <main role="main" class="container">
+
+    <div class="row">
+
+      <div class="col-sm-8 blog-main">
+
+        <div class="blog-post">
+
+          <p>
+            {% autoescape off %}
+            {{ tieFind.content }}
+            {% endautoescape %}
+          </p>
+
+
+        </div>
+        <!-- /.blog-post -->
+
+
+        <div class="btn-group">
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary" id="tiethumb" onclick="tieThumb()">赞
+              <span id="tiethumb_num">23
+                <!--                        {{tieFind.tieThumbNum}}-->
+              </span>
+            </button>
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary" id="tiecollect" onclick="tieCollect()">收藏
+              <span id="tiecollect_num">12
+                <!--                  {tieFind.tiecollect}}-->
+              </span>
+            </button>
+          </div>
+        </div>
+
+
+
+        <div class="blog-post">
+          <h3>回贴
+            <button type="submit" class="btn btn-secondary" formmethod="post" onsubmit="return hostreply()"
+              id="hostonly">只看楼主</button>
+          </h3>
+          <hr>
+          {% for Reply in reply %}
+          <div id="reply_content">
+            <p class="blog-post-meta"> {{ Reply.createdTime }} 来自
+              <a href="#">{{Reply.username}}</a>：
+            </p>
+            <blockquote>
+              <p>{{Reply.content}}</p>
+            </blockquote>
+
+            <div class="btn-group">
+              <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary" id="replythumb" onclick="replyThumb()">赞
+                  <span id="replythumb_num">
+                    {{Reply.replyThumbNum}}
+                  </span>
+                </button>
+              </div>
+              <div class="btn-group">
+                <button type="button" class="btn btn-outline-secondary" id="replycollect" onclick="">举报
+                </button>
+              </div>
+            </div>
+          </div>
+          <hr>
+          {% endfor %}
+
+          <div id="selfreply" style="display: none">
+            <p class="blog-post-meta">
+              <span>Time</span>
+              来自
+              <a href="#">用户名</a>：
+            </p>
+            <blockquote>
+              <p id="selfreply_content">这里是回复的内容</p>
+            </blockquote>
+
+            <div class="btn-group">
+              <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary" id="thumb" onclick="replyThumb()">赞
+                  <span id="thumb_num">0
+                  </span>
+                </button>
+              </div>
+              <div class="btn-group">
+                <button type="button" class="btn btn-outline-secondary" id="collect" onclick="">投诉
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--回复框-->
+        <div class="mt-3 mb-5" data-category="forms">
+          <h3>跟帖</h3>
+          <hr>
+          <form action="" method="post">
+            <fieldset class="form-group">
+              <textarea style="width: 100%; height: 100px;" name = "content">
+            </textarea>
+            </fieldset>
+            <button type="submit" class="btn btn-default">发布</button>
+            {% csrf_token %}
+          </form>
+        </div>
+
+      </div>
+      <!-- /.blog-main -->
+
+      <aside class="col-sm-3 ml-sm-auto blog-sidebar">
+        <div class="sidebar-module sidebar-module-inset">
+          <h4>简述</h4>
+          <p>Etiam porta
+            <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean
+            lacinia bibendum
+            nulla sed consectetur.
+          </p>
+        </div>
+        <div class="sidebar-module">
+          <h4>博主的其他帖子</h4>
+          <ol class="list-unstyled">
+            <li>
+              <a href="#">March 2014</a>
+            </li>
+            <li>
+              <a href="#">February 2014</a>
+            </li>
+            <li>
+              <a href="#">January 2014</a>
+            </li>
+            <li>
+              <a href="#">December 2013</a>
+            </li>
+            <li>
+              <a href="#">November 2013</a>
+            </li>
+            <li>
+              <a href="#">October 2013</a>
+            </li>
+            <li>
+              <a href="#">September 2013</a>
+            </li>
+            <li>
+              <a href="#">August 2013</a>
+            </li>
+            <li>
+              <a href="#">July 2013</a>
+            </li>
+            <li>
+              <a href="#">June 2013</a>
+            </li>
+            <li>
+              <a href="#">May 2013</a>
+            </li>
+            <li>
+              <a href="#">April 2013</a>
+            </li>
+          </ol>
+        </div>
+        <div class="sidebar-module">
+          <h4>Elsewhere</h4>
+          <ol class="list-unstyled">
+            <li>
+              <a href="#">GitHub</a>
+            </li>
+            <li>
+              <a href="#">Twitter</a>
+            </li>
+            <li>
+              <a href="#">Facebook</a>
+            </li>
+          </ol>
+        </div>
+      </aside>
+      <!-- /.blog-sidebar -->
+
+    </div>
+    <!-- /.row -->
+
+  </main>
+  <!-- /.container -->
+
+  <footer class="blog-footer">
+    <p>校友会平台
+      <a href="https://getbootstrap.com/">Bootstrap</a> by
+      <a href="https://github.com/bblss123/alumni">软工小组</a>.
+    </p>
+    <p>
+      <a href="#">Back to top</a>
+    </p>
+  </footer>
+
+</body>
+
+</html>

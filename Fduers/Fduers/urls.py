@@ -18,6 +18,8 @@ from django.urls import path,re_path
 from django.views.static import serve
 from alumni import views
 from Fduers import settings
+from django.conf import settings 
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,5 +28,22 @@ urlpatterns = [
     path('index/', views.index),
     path('register/', views.register),
     path('postTie/', views.postTie),
-    re_path(r'tie/(?P<tieID>\d+)/$', views.tie)
+    re_path(r'tie/(?P<tieID>\d+)/$', views.tie),
+    path('submit/',views.submit),
+    path('score/', views.score),
+    path('about/', views.about),
+    path('tieLists/', views.tieLists),
+    path('postTie/', views.postTie),
+    path('messageBoard/', views.messageBoard),
+    path('activities/', views.activities),
+    re_path(r'tieLists/province/(?P<provID>\d+)', views.tieListsProv),
+    re_path(r'tieLists/industry/(?P<indusID>\d+)', views.tieListsIndus),
+    path('changemessage/', views.changemessage),
+    path('tieLists/stars/', views.tieListsStars),
+    path('stars/', views.stars),
+    path('myactivities/', views.myactivities),
+    path('logout/', views.logout),
+    path('mypost/', views.mypost),
+    path('myreply/', views.myreply)
 ]
+
